@@ -3,78 +3,64 @@ var c = document.getElementById("MyCanvas");
 var img = new Image();
 var img_height = c.height/10;
 var img_width = c.width/10;
-
+var shoot = null;
+var keyDown;
 
 
 function Start() {
     spaceShip.i=c.width/2-img_width/2;
     spaceShip.j=c.height - c.height * 0.2 - img_height/2;
-    keysDown = {};
     addEventListener("keydown", function (e) {
-        keysDown[e.keyCode] = true;
-    }, false);
+        keyDown = e.key;}, false);
     addEventListener("keyup", function (e) {
-        keysDown[e.keyCode] = false;
-    }, false);
+        console.log(e.key);
+        keyDown = null;}, false);
     interval=setInterval(UpdatePosition, 250);
 }
 
-function GetKeyPressed() {
-
-      if (keysDown[27]) { 
-        return "esc";
-    } 
-    if (keysDown[37]) { 
-        return "left";
-    } 
-    if (keysDown[38]) {
-        return "up";
-    }
-    if (keysDown[39]) { 
-        return "right";
-    }
- 
-    if (keysDown[40]) { 
-        return "down";
-    }
-}
 
 function UpdatePosition() {
-    var x = GetKeyPressed();
+
     var jump_size_vertical = img_height/2;
     var jump_size_horizontal = img_width/2;
 
-    if(x=="up")
+    if(keyDown=="ArrowUp")
     {
+
         if(spaceShip.j>c.height - c.height * 0.4 + jump_size_vertical/2)
         {
             spaceShip.j-=jump_size_vertical;
         }
     }
-    if(x=="down")
+    if(keyDown=="ArrowDown")
     {
         if(spaceShip.j<c.height - img_height - jump_size_vertical/2)
         {
             spaceShip.j+=jump_size_vertical;
         }
     }
-    if(x=="left")
+    if(keyDown=="ArrowLeft")
     {
         if(spaceShip.i>0)
         {
             spaceShip.i-=jump_size_horizontal;
         }
     }
-    if(x=="right")
+    if(keyDown=="ArrowRight")
     {
         if(spaceShip.i<c.width - img_width)
         {
             spaceShip.i+=jump_size_horizontal;
         }
     }
-    if(x=="esc"){
+    if(keyDown=="Escape"){
         window.clearInterval(interval);
-        window.alert("Game completed");
+        $("#MyCanvas").hide()
+
+    }
+    if(keyDown==shoot){
+        window.clearInterval(interval);
+        $("#MyCanvas").hide()
 
     }
     else{
@@ -109,5 +95,29 @@ function DrawGoodRocketShip(){
         ctx.drawImage(img, spaceShip.i, spaceShip.j, img_width,img_height);
     });
 }
-$(document).ready(Start);
+
+$("#MyCanvas").hide()
+const input = document.getElementById("myInput");
+input.addEventListener('keydown',function(e) {
+  if (input.value.length > 0) {
+    input.value =null;
+  }
+  shoot = e.key;
+  $("#mytextarea").empty();
+  $("#mytextarea").append(" you will shoot with: '");
+  $("#mytextarea").append(shoot);
+  $("#mytextarea").append("'");
+
+
+}, false);
+const myButton = document.getElementById("startButton")
+startButton.addEventListener("click",function(){
+    if(shoot==null){
+        $("#mytextarea").append(" *fill the box");
+    }
+    else{
+        $("#MyCanvas").show();
+        $(document).ready(Start);
+    }
+}, false);
   
