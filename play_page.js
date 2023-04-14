@@ -97,17 +97,17 @@ function Update() {
             GoodSpaceship.i+=jump_size_horizontal;
         }
     }
-    if(keyDown=="Escape"){
-        window.clearInterval(interval);
-        $("#MyCanvas").hide()
-
-    }
     if(keyDown==shoot){
         if(goodSScanShoot){
             lastShotTime = new Date();
             goodSScanShoot = false;
 
         }
+    }
+    if(keyDown=="Escape"){
+        window.clearInterval(interval);
+        $("#MyCanvas").hide()
+
     }
     else{
         if(badspaceShips[0][0].i<img_width*6 && spaceshipsMovement == "right"){
@@ -196,6 +196,9 @@ startButton.addEventListener("click",function(){
         $("#MyCanvas").show();
         $(document).ready(Start);
         $("#startButton").hide();
+        $("#myInput").hide();
+
+        
 
     }
 }, false);
