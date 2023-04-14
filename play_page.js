@@ -195,5 +195,8 @@ startButton.addEventListener("click",function(){
     else{
         $("#MyCanvas").show();
         $(document).ready(Start);
+        $("#startButton").hide();
+
     }
 }, false);
+
