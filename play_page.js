@@ -14,6 +14,10 @@ var badspaceShips;
 var spaceshipsMovement = "right";
 var start_time;
 var time_elapsed;
+var goodSScanShoot=true;
+var lastShotTime=0;
+var shotsTimeGap = 2000;
+
 
 function initiateBadSSsYLocation(firstSpacehipI){
     badspaceShips[0][0].i=firstSpacehipI;
@@ -99,7 +103,11 @@ function Update() {
 
     }
     if(keyDown==shoot){
-        
+        if(goodSScanShoot){
+            lastShotTime = new Date();
+            goodSScanShoot = false;
+
+        }
     }
     else{
         if(badspaceShips[0][0].i<img_width*6 && spaceshipsMovement == "right"){
@@ -118,6 +126,9 @@ function Update() {
         Draw();
     }
     time_elapsed=(new Date()-start_time)/1000;
+    if(new Date()-lastShotTime>shotsTimeGap){
+        goodSScanShoot = true;
+    }
     keyDown=null;
 }
 
@@ -154,6 +165,10 @@ function Draw(){
     draw_badSpaceships();
     ctx.font = '10px Verdana';
     ctx.fillStyle = 'red';
+    if(goodSScanShoot){
+    ctx.font = '10px Verdana';
+    ctx.fillStyle = 'green';
+    }
     ctx.fillText(time_elapsed, 0, 9);
 }
 
