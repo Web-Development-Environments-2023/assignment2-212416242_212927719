@@ -12,8 +12,10 @@ var shoot = null;
 var keyDown;
 var badspaceShips;
 var spaceshipsMovement = "right";
+var start_time;
+var time_elapsed;
 
-function initiateBadspaceShipsLocations(firstSpacehipI){
+function initiateBadSSsYLocation(firstSpacehipI){
     badspaceShips[0][0].i=firstSpacehipI;
     badspaceShips[0][0].j=img_height;
     for (var i = 0; i < badspaceShips.length; i++) {
@@ -45,19 +47,21 @@ function Start() {
             }
         }    
         initiateObjects();
-        initiateBadspaceShipsLocations(0);
+        initiateBadSSsYLocation(0);
     }
     createBadspaceShips();
+    start_time= new Date();
+
     GoodSpaceship.i=c.width/2-img_width/2;
     GoodSpaceship.j=c.height - c.height * 0.2 - img_height/2;
     addEventListener("keydown", function (e) {
         keyDown = e.key;}, false);
 
-    interval=setInterval(UpdatePosition, intervalGap);
+    interval=setInterval(Update, intervalGap);
 }
 
 
-function UpdatePosition() {
+function Update() {
     var jump_size_vertical = img_height/2;
     var jump_size_horizontal = img_width/2;
     if(keyDown=="ArrowUp")
@@ -95,25 +99,25 @@ function UpdatePosition() {
 
     }
     if(keyDown==shoot){
-        //
-
+        
     }
     else{
         if(badspaceShips[0][0].i<img_width*6 && spaceshipsMovement == "right"){
-            initiateBadspaceShipsLocations(badspaceShips[0][0].i+img_width/2,0);
+            initiateBadSSsYLocation(badspaceShips[0][0].i+img_width/2,0);
         }
         else{
             spaceshipsMovement = "left";
             if(badspaceShips[0][0].i!=0){
-                initiateBadspaceShipsLocations(badspaceShips[0][0].i-img_width/2);
+                initiateBadSSsYLocation(badspaceShips[0][0].i-img_width/2);
             }
             else{
-                initiateBadspaceShipsLocations(badspaceShips[0][0].i+img_width/2);
+                initiateBadSSsYLocation(badspaceShips[0][0].i+img_width/2);
                 spaceshipsMovement = "right"
             }
         }
         Draw();
     }
+    time_elapsed=(new Date()-start_time)/1000;
     keyDown=null;
 }
 
@@ -148,6 +152,9 @@ function Draw(){
     draw_text();
     ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height);
     draw_badSpaceships();
+    ctx.font = '10px Verdana';
+    ctx.fillStyle = 'red';
+    ctx.fillText(time_elapsed, 0, 9);
 }
 
 $("#MyCanvas").hide();
