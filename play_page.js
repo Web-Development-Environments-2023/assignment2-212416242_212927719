@@ -29,7 +29,6 @@ function initiateBadSSsYLocation(firstSpacehipI){
             j=1;
         }
         for (; j < badspaceShips[i].length; j++) {
-            badspaceShips[i][j].alive = true;
             badspaceShips[i][j].i=badspaceShips[0][0].i + img_width * i * 2;
             badspaceShips[i][j].j=badspaceShips[0][0].j + img_height * j * 2;
         
@@ -48,9 +47,10 @@ function Start() {
                 badspaceShips[i] = new Array(numCols);  
               for (let j = 0; j < numCols; j++) {
                 badspaceShips[i][j] = new Object();
+                badspaceShips[i][j].alive = true;
               }
             }
-        }    
+        }      
         initiateObjects();
         initiateBadSSsYLocation(0);
     }
@@ -68,11 +68,32 @@ function Start() {
 
 function Update() {
     function updateShots(){
+        function hit(shot, badSS){
+            if(shot.i>=badSS.i&&shot.i<=badSS.i+img_width&&shot.j>=badSS.j&&shot.j<=badSS.j+img_height){
+                return true;
+            }
+            return false;
+        }
         for (var i = 0; i < shots.length; i++) {
             shots[i].j-=3;
             if(shots[i].j<0){
-                shots.splice(i,i);
+                shots.splice(i,1);
+                i--;
+                continue;
             }
+            outerloop:
+            for (var k = 0; k < badspaceShips.length; k++) {
+                for (var j = 0; j < badspaceShips[k].length; j++) {
+                    if(badspaceShips[k][j].alive){
+                        if (hit(shots[i],badspaceShips[k][j])){
+                            shots.splice(i,1);
+                            badspaceShips[k][j].alive = false;
+                            i--;
+                            break outerloop;
+                        }
+                    }
+                }
+            }  
         }
     }
     var jump_size_vertical = img_height/2;
@@ -137,8 +158,10 @@ function Update() {
                 spaceshipsMovement = "right"
             }
         }
-        updateShots();
         Draw();
+
+        updateShots();
+
     }
     time_elapsed=(new Date()-start_time)/1000;
     if(new Date()-lastShotTime>shotsTimeGap){
@@ -167,7 +190,9 @@ function Draw(){
     function draw_badSpaceships(){
         for (var i = 0; i < badspaceShips.length; i++) {
             for (var j = 0; j < badspaceShips[i].length; j++) {
-                ctx.drawImage(BadSSImg, badspaceShips[i][j].i, badspaceShips[i][j].j, img_width,img_height);
+                if(badspaceShips[i][j].alive){
+                    ctx.drawImage(BadSSImg, badspaceShips[i][j].i, badspaceShips[i][j].j, img_width,img_height);
+                }
             }
         }  
     }
