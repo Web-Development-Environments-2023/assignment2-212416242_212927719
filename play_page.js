@@ -6,8 +6,8 @@ var GoodSSImg = new Image();
 GoodSSImg.src = "goodSpaceship1.png";
 var BadSSImg = new Image();
 BadSSImg.src = 'badSpaceship.png';
-var img_height = c.height/3; 
-var img_width = c.width/3;
+var img_height = c.height/4; 
+var img_width = c.width/4;
 var shoot = null;
 var keyDown;
 var badspaceShips;
@@ -25,7 +25,7 @@ var badSSspeed = 8;
 
 function initiateBadSSsYLocation(firstSpacehipI){
     badspaceShips[0][0].i=firstSpacehipI;
-    badspaceShips[0][0].j=img_height;
+    badspaceShips[0][0].j=img_height*2;
     for (var i = 0; i < badspaceShips.length; i++) {
         var j = 0;
         if (i==0){
@@ -62,8 +62,8 @@ function Start() {
     createBadspaceShips();
     start_time= new Date();
     shots = []
-    GoodSpaceship.i=c.width/2-img_width/2;
-    GoodSpaceship.j=c.height - c.height * 0.2 - img_height/2;
+    GoodSpaceship.i=0;
+    GoodSpaceship.j=c.height-  img_height;
     addEventListener("keydown", function (e) {
         keyDown = e.key;}, false);
 
@@ -164,7 +164,6 @@ function Update() {
             }
         }
         Draw();
-
         updateShots();
 
     }
@@ -203,18 +202,18 @@ function Draw(){
     }
     function draw_time(){
         draw_badSpaceships();
+        time_elapsed =Math.floor(time_elapsed * 10) / 10
         ctx.font = '40px Verdana';
-        ctx.fillStyle = 'red';
-        if(goodSScanShoot){
-        ctx.font = '40px Verdana';
-        ctx.fillStyle = 'green';
-        }
-        ctx.fillText(time_elapsed, 0, 9);
+        ctx.fillStyle = 'white';
+        ctx.fillText(time_elapsed+ "s", 0, 35);
     }
     function draw_shots(){
         function draw_bullet(i,j){
             ctx.fillStyle = 'yellow';
-            ctx.fillRect(i-(ballSize/2), j, ballSize, ballSize);
+            ctx.fillRect(i-(ballSize/2), j-ballSize, ballSize, ballSize);
+        }
+        if(goodSScanShoot){
+            draw_bullet(GoodSpaceship.i+img_width/2, GoodSpaceship.j);   
         }
         for (var i = 0; i < shots.length; i++) {
             draw_bullet(shots[i].i,shots[i].j);
