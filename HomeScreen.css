@@ -7,7 +7,6 @@ body {
     align-content: center;
     justify-content: center;
     place-content: center;
-    perspective: 40vw;
     overflow: hidden;
 }
 
@@ -29,16 +28,23 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 2.5vh;
     transform-style: preserve-3d;
     transform: rotateY(clamp(calc(var(--_max-rotateY) * -1), var(--y), var(--_max-rotateY))) rotateX(clamp(calc(var(--_max-rotateX) * -1), var(--x), var(--_max-rotateX)))
 }
 
-.threeD-button-set h1 {
+.threeD-button-set h1,h5 {
     color: aliceblue;
-    font-size: 300%;
     font-family: 'Public Pixel', sans-serif;
     stroke: #362c2f;
+}
+
+.threeD-button-set h1{
+    font-size: 300%;
+}
+.threeD-button-set h5{
+    font-size: 150%;
 }
 
 @media (prefers-reduced-motion:no-preference) {
@@ -49,23 +55,19 @@ body {
         animation: rotate-y 5s ease-in-out infinite
     }
 }
-
-
-@media (dynamic-range:high) {
-    @supports (color: color(display-p3 0 0 0)) {
-        .threeD-button-set {
-            --theme: color(display-p3 .4 0 .9)
-        }
-    }
+.threeD-button-set input[type="text"] {
+    padding-block: 5%;
 }
 
-.threeD-button-set>li {
+
+.threeD-button-set li {
     display: inline-flex;
     position: relative;
-    transform-style: preserve-3d
+    transform-style: preserve-3d;
+    list-style-type: none;
 }
 
-.threeD-button-set button {
+.threeD-button-set button{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -131,7 +133,7 @@ body {
 
 
 @media (prefers-reduced-motion:no-preference) {
-    .threeD-button-set button {
+    .threeD-button-set button{
         will-change: transform;
         transition: transform .2s ease, background-color .5s ease
     }
@@ -158,6 +160,28 @@ html {
     block-size: 100%;
     background: conic-gradient(at -10% 50%, #362c2f, #0ff)
 }
+
+form { 
+    text-align: center;
+    }
+
+
+.threeD-button-set input{
+    outline: 0;
+    border: none;
+    background-color: var(--_btn-bg);
+    color: var(--theme-text);
+    font-size: 110%;
+    border-radius: 5px 20px;
+    padding: 2%;
+    margin: 2%;
+    font-family: 'Public Pixel', sans-serif;
+
+}
+
+
+
+
 
 
 
