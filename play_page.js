@@ -25,6 +25,8 @@ var gSSshots=[];
 var bSSshots=[];
 var ballSize=10;
 var badSSspeed = 8; 
+var eggPixelSize = img_height/17
+
 
 
 
@@ -76,8 +78,8 @@ function Start() {
     createBadspaceShips();
     addBSSshot();
     start_time= new Date();
-    GoodSpaceship.i=0;
-    GoodSpaceship.j=c.height-  img_height;
+    GoodSpaceship.i=img_width * Math.floor(Math.random() * Math.floor(c.width/img_width));
+    GoodSpaceship.j=c.height- img_height;
     addEventListener("keydown", function (e) {
         keyDown = e.key;}, false);
 
@@ -244,7 +246,9 @@ function Draw(){
     }
     function draw_gSSshots(){
         function draw_bullet(i,j,loading){
-            ctx.strokeStyle ="lightgreen";
+            ctx.beginPath();
+
+            ctx.strokeStyle ="lightblue";
             ctx.lineWidth = 4;
             ctx.beginPath();
             var radius = 5
@@ -258,6 +262,7 @@ function Draw(){
                 }
             }
             else{
+
                 ctx.arc(i, j-radius-ctx.lineWidth/2 ,radius, 0, 2* Math.PI);
             }
             ctx.stroke();
@@ -268,12 +273,37 @@ function Draw(){
         }
     }
     function draw_bSSshots(){
-        function draw_bullet(i,j){
-            ctx.fillStyle = 'red';
-            ctx.fillRect(i+img_width/2, j+img_height, ballSize, ballSize);
+        function draw_egg(i,j){
+            ctx.strokeStyle = "white"; 
+            ctx.lineWidth = eggPixelSize;
+            var i = i+img_width/2
+            var j = j+img_height
+            ctx.beginPath();
+            ctx.moveTo(i, j);
+            ctx.lineTo(i, j+eggPixelSize*5);
+            ctx.stroke();
+            ctx.moveTo(i-1*eggPixelSize, j);
+            ctx.lineTo(i-1*eggPixelSize, j+eggPixelSize*5);
+            ctx.stroke();
+            ctx.moveTo(i+1*eggPixelSize, j);
+            ctx.lineTo(i+1*eggPixelSize, j+eggPixelSize*5);
+            ctx.stroke();
+            ctx.moveTo(i-2*eggPixelSize, j+eggPixelSize);
+            ctx.lineTo(i-2*eggPixelSize, j+eggPixelSize*5);
+            ctx.stroke();
+            ctx.moveTo(i+2*eggPixelSize, j+eggPixelSize);
+            ctx.lineTo(i+2*eggPixelSize, j+eggPixelSize*5);
+            ctx.stroke();
+            ctx.moveTo(i-3*eggPixelSize, j+2*eggPixelSize);
+            ctx.lineTo(i-3*eggPixelSize, j+eggPixelSize*4);
+            ctx.stroke();
+            ctx.moveTo(i+3*eggPixelSize, j+2*eggPixelSize);
+            ctx.lineTo(i+3*eggPixelSize, j+eggPixelSize*4);
+            ctx.stroke();
+
         }
         for (var i = 0; i < bSSshots.length; i++) {
-            draw_bullet(bSSshots[i].i,bSSshots[i].j);
+            draw_egg(bSSshots[i].i,bSSshots[i].j);
         }
     }
     c.width=c.width;
