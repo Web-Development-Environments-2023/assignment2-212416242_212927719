@@ -2,10 +2,11 @@ var GoodSpaceship = new Object;
 var c = document.getElementById("MyCanvas");
 var ctx = c.getContext("2d");
 var intervalGap = 20;
+var intervalGap = 20;
 var GoodSSImg = new Image();
-GoodSSImg.src = "goodSpaceship1.png";
+GoodSSImg.src = "spaceShip.png";
 var BadSSImg = new Image();
-BadSSImg.src = 'badSpaceship.png';
+BadSSImg.src = 'chicken.png';
 var bomb_img = new Image();
 bomb_img.src = 'bomb.png';
 var img_height = c.height/4; 
@@ -57,6 +58,8 @@ function addBSSshot(){
 function Start() {
    $('#MyCanvas').attr("width",$(window).width());
    $('#MyCanvas').attr("height",$(window).height());
+    img_height = c.height/20;
+    img_width = c.width/20;
     function createBadspaceShips(){    
         function initiateObjects(){
             const numRows = 5;
@@ -239,6 +242,7 @@ function Draw(){
     }
     function draw_time(){
         draw_badSpaceships();
+
         time_elapsed =Math.floor(time_elapsed * 10) / 10
         ctx.font = '40px Verdana';
         ctx.fillStyle = 'white';
@@ -309,7 +313,7 @@ function Draw(){
     c.width=c.width;
     draw_line();
     draw_text();
-    ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height);
+    ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height*2);
     draw_time();
     draw_gSSshots();
     draw_bSSshots();
