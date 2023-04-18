@@ -2,11 +2,12 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-
+    /*background: conic-gradient(at -10% 50%, #362c2f,#0ff);*/
     background-color: darkblue;
 }
 span{
     color: red;;
+}
+body{
+    overflow: hidden;
 }

@@ -15,10 +15,12 @@ var spaceshipsMovement = "right";
 var start_time;
 var time_elapsed;
 var goodSScanShoot=true;
+var bSScanShoot = false;
 var lastShotTime=0;
-var shotsTimeGap = 1000;
-var shots;
-var ballSize=6;
+var gSSshotsTimeGap = 1000;
+var gSSshots=[];
+var bSSshots=[];
+var ballSize=10;
 var badSSspeed = 8; 
 
 
@@ -39,11 +41,18 @@ function initiateBadSSsYLocation(firstSpacehipI){
     }
 }
 
+function addBSSshot(){
+    badSSRandomized = badspaceShips[Math.floor(Math.random() * 5)][Math.floor(Math.random() * 4)]
+    var shot = new Object();
+    shot.i=badSSRandomized.i;
+    shot.j=badSSRandomized.j;
+    bSSshots.push(shot);
+}
 
 function Start() {
-    $('#MyCanvas').attr("width",$(window).width());
+   $('#MyCanvas').attr("width",$(window).width());
    $('#MyCanvas').attr("height",$(window).height());
-    function createBadspaceShips(){
+    function createBadspaceShips(){    
         function initiateObjects(){
             const numRows = 5;
             const numCols = 4;
@@ -60,8 +69,8 @@ function Start() {
         initiateBadSSsYLocation(0);
     }
     createBadspaceShips();
+    addBSSshot();
     start_time= new Date();
-    shots = []
     GoodSpaceship.i=0;
     GoodSpaceship.j=c.height-  img_height;
     addEventListener("keydown", function (e) {
@@ -72,17 +81,27 @@ function Start() {
 
 
 function Update() {
-    function updateShots(){
-        function hit(shot, badSS){
-            if(shot.i>=badSS.i&&shot.i<=badSS.i+img_width&&shot.j>=badSS.j&&shot.j<=badSS.j+img_height){
-                return true;
-            }
-            return false;
+    function hit(shot, SS){
+        if(shot.i>=SS.i&&shot.i<=SS.i+img_width&&shot.j>=SS.j&&shot.j<=SS.j+img_height){
+            return true;
         }
-        for (var i = 0; i < shots.length; i++) {
-            shots[i].j-=8;
-            if(shots[i].j<0){
-                shots.splice(i,1);
+        return false;
+    }
+    function updategbSSshots(){
+        for (var i = 0; i < bSSshots.length; i++) {
+            bSSshots[i].j+=8;
+            if(bSSshots[i].j>c.height){
+                bSSshots.splice(i,1);
+                i--;
+                continue;
+            }
+        }
+    }
+    function updategSSshots(){
+        for (var i = 0; i < gSSshots.length; i++) {
+            gSSshots[i].j-=8;
+            if(gSSshots[i].j<0){
+                gSSshots.splice(i,1);
                 i--;
                 continue;
             }
@@ -90,8 +109,8 @@ function Update() {
             for (var k = 0; k < badspaceShips.length; k++) {
                 for (var j = 0; j < badspaceShips[k].length; j++) {
                     if(badspaceShips[k][j].alive){
-                        if (hit(shots[i],badspaceShips[k][j])){
-                            shots.splice(i,1);
+                        if (hit(gSSshots[i],badspaceShips[k][j])){
+                            gSSshots.splice(i,1);
                             badspaceShips[k][j].alive = false;
                             i--;
                             break outerloop;
@@ -106,7 +125,7 @@ function Update() {
     if(keyDown=="ArrowUp")
     {
 
-        if(GoodSpaceship.j>c.height - c.height * 0.4 + jump_size_vertical/2)
+        if(GoodSpaceship.j>c.height - c.height * 0.4 + jump_size_vertical)
         {
             GoodSpaceship.j-=jump_size_vertical;
         }
@@ -139,7 +158,7 @@ function Update() {
             var shot = new Object();
             shot.i=GoodSpaceship.i+img_width/2;
             shot.j=GoodSpaceship.j;
-            shots.push(shot);
+            gSSshots.push(shot);
           }
     }
     if(keyDown=="Escape"){
@@ -164,12 +183,16 @@ function Update() {
             }
         }
         Draw();
-        updateShots();
+        updategSSshots();
+        updategbSSshots();
 
     }
     time_elapsed=(new Date()-start_time)/1000;
-    if(new Date()-lastShotTime>shotsTimeGap){
+    if(new Date()-lastShotTime>gSSshotsTimeGap){
         goodSScanShoot = true;
+    }
+    if(bSSshots[bSSshots.length-1].j>c.height*0.75){
+        addBSSshot();
     }
     keyDown=null;
 }
@@ -189,7 +212,7 @@ function Draw(){
     function draw_text(){
         ctx.font = "30px fantasy";
         ctx.fillStyle="white"
-        ctx.fillText("can't cross", 0, c.height*0.6 - 2);
+        ctx.fillText("can't cross", 0, c.height*0.6);
     }
     function draw_badSpaceships(){
         for (var i = 0; i < badspaceShips.length; i++) {
@@ -207,16 +230,32 @@ function Draw(){
         ctx.fillStyle = 'white';
         ctx.fillText(time_elapsed+ "s", 0, 35);
     }
-    function draw_shots(){
+    function draw_gSSshots(){
+        function draw_bullet(i,j,loading){
+            ctx.strokeStyle ="lightgreen";
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            var radius = 5
+            if(loading){
+                ctx.arc(i, j-radius-ctx.lineWidth/2 ,radius, 0, 2*((new Date()-lastShotTime)/gSSshotsTimeGap) * Math.PI);
+            }
+            else{
+                ctx.arc(i, j-radius-ctx.lineWidth/2 ,radius, 0, 2* Math.PI);
+            }
+            ctx.stroke();
+        }
+        draw_bullet(GoodSpaceship.i+img_width/2, GoodSpaceship.j,true);   
+        for (var i = 0; i < gSSshots.length; i++) {
+            draw_bullet(gSSshots[i].i,gSSshots[i].j,false);
+        }
+    }
+    function draw_bSSshots(){
         function draw_bullet(i,j){
-            ctx.fillStyle = 'yellow';
-            ctx.fillRect(i-(ballSize/2), j-ballSize, ballSize, ballSize);
+            ctx.fillStyle = 'red';
+            ctx.fillRect(i+img_width/2, j+img_height, ballSize, ballSize);
         }
-        if(goodSScanShoot){
-            draw_bullet(GoodSpaceship.i+img_width/2, GoodSpaceship.j);   
-        }
-        for (var i = 0; i < shots.length; i++) {
-            draw_bullet(shots[i].i,shots[i].j);
+        for (var i = 0; i < bSSshots.length; i++) {
+            draw_bullet(bSSshots[i].i,bSSshots[i].j);
         }
     }
     c.width=c.width;
@@ -224,7 +263,8 @@ function Draw(){
     draw_text();
     ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height);
     draw_time();
-    draw_shots();
+    draw_gSSshots();
+    draw_bSSshots();
 
 }
 
