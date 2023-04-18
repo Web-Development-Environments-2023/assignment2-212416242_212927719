@@ -2,10 +2,11 @@
     position: absolute;
     top: 0;
     left: 0;
-    /* width: 100vw;
-    height: 100vh; */
     background-color: darkblue;
 }
 span{
     color: red;;
+}
+body{
+    overflow: hidden;
 }
