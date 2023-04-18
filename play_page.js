@@ -1,13 +1,13 @@
 var GoodSpaceship = new Object;
 var c = document.getElementById("MyCanvas");
 var ctx = c.getContext("2d");
-var intervalGap = 125;
+var intervalGap = 20;
 var GoodSSImg = new Image();
 GoodSSImg.src = "goodSpaceship1.png";
 var BadSSImg = new Image();
 BadSSImg.src = 'badSpaceship.png';
-var img_height = c.height/15; 
-var img_width = c.width/15;
+var img_height = c.height/3; 
+var img_width = c.width/3;
 var shoot = null;
 var keyDown;
 var badspaceShips;
@@ -18,6 +18,9 @@ var goodSScanShoot=true;
 var lastShotTime=0;
 var shotsTimeGap = 1000;
 var shots;
+var ballSize=6;
+var badSSspeed = 8; 
+
 
 
 function initiateBadSSsYLocation(firstSpacehipI){
@@ -38,6 +41,8 @@ function initiateBadSSsYLocation(firstSpacehipI){
 
 
 function Start() {
+    $('#MyCanvas').attr("width",$(window).width());
+   $('#MyCanvas').attr("height",$(window).height());
     function createBadspaceShips(){
         function initiateObjects(){
             const numRows = 5;
@@ -75,7 +80,7 @@ function Update() {
             return false;
         }
         for (var i = 0; i < shots.length; i++) {
-            shots[i].j-=3;
+            shots[i].j-=8;
             if(shots[i].j<0){
                 shots.splice(i,1);
                 i--;
@@ -145,16 +150,16 @@ function Update() {
 
     }
     else{
-        if(badspaceShips[0][0].i<img_width*6 && spaceshipsMovement == "right"){
-            initiateBadSSsYLocation(badspaceShips[0][0].i+img_width/2,0);
+        if(badspaceShips[4][0].i<c.width-img_width && spaceshipsMovement == "right"){
+            initiateBadSSsYLocation(badspaceShips[0][0].i+img_width/badSSspeed,0);
         }
         else{
             spaceshipsMovement = "left";
-            if(badspaceShips[0][0].i!=0){
-                initiateBadSSsYLocation(badspaceShips[0][0].i-img_width/2);
+            if(badspaceShips[0][0].i>0){
+                initiateBadSSsYLocation(badspaceShips[0][0].i-img_width/badSSspeed);
             }
             else{
-                initiateBadSSsYLocation(badspaceShips[0][0].i+img_width/2);
+                initiateBadSSsYLocation(badspaceShips[0][0].i+img_width/badSSspeed);
                 spaceshipsMovement = "right"
             }
         }
@@ -177,13 +182,13 @@ function Draw(){
         gradient.addColorStop(0, "black");
         gradient.addColorStop(1, "transparent");
         ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 10;
         ctx.moveTo(0, c.height*0.6-1);
         ctx.lineTo(c.width, c.height*0.6-1);
         ctx.stroke();
     }
     function draw_text(){
-        ctx.font = "10px fantasy";
+        ctx.font = "30px fantasy";
         ctx.fillStyle="white"
         ctx.fillText("can't cross", 0, c.height*0.6 - 2);
     }
@@ -198,10 +203,10 @@ function Draw(){
     }
     function draw_time(){
         draw_badSpaceships();
-        ctx.font = '10px Verdana';
+        ctx.font = '40px Verdana';
         ctx.fillStyle = 'red';
         if(goodSScanShoot){
-        ctx.font = '10px Verdana';
+        ctx.font = '40px Verdana';
         ctx.fillStyle = 'green';
         }
         ctx.fillText(time_elapsed, 0, 9);
@@ -209,7 +214,7 @@ function Draw(){
     function draw_shots(){
         function draw_bullet(i,j){
             ctx.fillStyle = 'yellow';
-            ctx.fillRect(i, j, 1, 1);
+            ctx.fillRect(i-(ballSize/2), j, ballSize, ballSize);
         }
         for (var i = 0; i < shots.length; i++) {
             draw_bullet(shots[i].i,shots[i].j);
