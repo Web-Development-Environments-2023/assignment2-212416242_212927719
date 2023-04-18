@@ -53,6 +53,8 @@ function addBSSshot(){
 function Start() {
    $('#MyCanvas').attr("width",$(window).width());
    $('#MyCanvas').attr("height",$(window).height());
+    img_height = c.height/20;
+    img_width = c.width/20;
     function createBadspaceShips(){    
         function initiateObjects(){
             const numRows = 5;
@@ -263,7 +265,7 @@ function Draw(){
     c.width=c.width;
     draw_line();
     draw_text();
-    ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height);
+    ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height*2);
     draw_time();
     draw_gSSshots();
     draw_bSSshots();
