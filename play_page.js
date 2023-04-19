@@ -82,6 +82,7 @@ function addBSSshot() {
 function Start() {
   $("#MyCanvas").attr("width", $(window).width());
   $("#MyCanvas").attr("height", $(window).height());
+  bSSAlive = [];
   backgroundSound.play();
   function createBadspaceShips() {
     function initiateObjects() {
