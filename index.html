@@ -7,14 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./HomeScreen.css">
     <link href="menu.css" rel="stylesheet">
+    <link href="scores.css" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/public-pixel" rel="stylesheet">
-
+    <script src="navigateWindows.js"></script>
+    <script src="signup.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="play_page.css" />
+    <script src="play_page.js" defer></script>
     <title>Chicken Invaders</title>
 </head>
 
 <body>
-    <script src="navigateWindows.js"></script>
-    <script src="signup.js"></script>
+
     <input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon" />
     <label for="menu-icon"></label>
     <nav id="menu" class="nav">
@@ -50,7 +54,7 @@
         <span></span>
     </section>
     <div class="section-center">
-        <div id="HomeScreen">
+        <div id="HomeScreen" hidden>
             <ul class="threeD-button-set">
                 <h1>Chicken Invaders</h1>
                 <br>
@@ -128,7 +132,15 @@
                 <br>
                 <h5>Enter key to shoot with:</h5>
                 <input id="shootKey" type="text">
-                <button onclick="tryLogin()">Start Game</button>
+                <h5 id="mytextarea"></h5>
+                <button id="startButton" onclick="startGame()">Start Game</button>
+            </div>
+        </div>
+
+        <div id="gamePage" hidden>
+            <canvas id="MyCanvas"></canvas>
+        </div>
+
             </div>
         </div>
 
