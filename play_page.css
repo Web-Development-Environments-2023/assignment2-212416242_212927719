@@ -1,4 +1,4 @@
-#MyCanvas{
+#MyCanvas {
     position: absolute;
     top: 0;
     left: 0;
@@ -6,11 +6,19 @@
     height: 100vh;
     background-image: url("background.webp");
     background-size: cover;
-    
+
 }
-span{
-    color: red;;
+
+/* .game {
+    background-image: url("background.webp");
+    background-size: cover;
+} */
+
+span {
+    color: red;
+    ;
 }
-body{
+
+body {
     overflow: hidden;
 }
