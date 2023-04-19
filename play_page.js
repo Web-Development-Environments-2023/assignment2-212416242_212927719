@@ -53,8 +53,8 @@ var shipDestroySound = new Audio('sound_destroy.mp3');
 var shotSound = new Audio('sound_sfx-laser1.ogg');
 var freezeSound = new Audio('freeze.mp3');
 var backgroundSound = new Audio('background.mp3');
-var lives = 3;
-var max_time = 10;
+var lives;
+var max_time = 50;
 
 function initiateBadSSsYLocation(firstSpacehipI) {
   badspaceShips[0][0].i = firstSpacehipI;
@@ -98,6 +98,7 @@ function Start() {
         }
       }
     }
+    lives = 3
     points = 0;
     initiateObjects();
     initiateBadSSsYLocation(0);
@@ -278,6 +279,7 @@ function Update() {
       }
     }
     if (lives == 0||bSSAlive.length==0||time_elapsed>=max_time) {
+        GoodSpaceship.alive=false
         setTimeout(function() {
             backgroundSound.pause();
             window.clearInterval(interval);
