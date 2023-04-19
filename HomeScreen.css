@@ -55,8 +55,10 @@ body {
         animation: rotate-y 5s ease-in-out infinite
     }
 }
-.threeD-button-set input[type="text"] {
-    padding-block: 5%;
+
+.threeD-button-set input[type="text"],
+input[type="password"] {
+    padding-block: 5% !important;
 }
 
 
