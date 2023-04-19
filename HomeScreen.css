@@ -35,13 +35,15 @@ body {
 }
 
 .threeD-button-set h1,
-h5 {
+h5,
+.pixeledH1 {
     color: aliceblue;
     font-family: 'Public Pixel', sans-serif;
     stroke: #362c2f;
 }
 
-.threeD-button-set h1 {
+.threeD-button-set h1,
+.pixeledH1 {
     font-size: 300%;
 }
 
@@ -183,11 +185,6 @@ form {
     font-family: 'Public Pixel', sans-serif;
 
 }
-
-
-
-
-
 
 
 
