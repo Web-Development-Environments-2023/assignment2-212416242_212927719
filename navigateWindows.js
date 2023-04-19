@@ -17,6 +17,11 @@ function goToLoggedInPage() {
     document.getElementById("loggedInPage").style.display = "block";
 }
 
+function goToGamePage() {
+    hideAll();
+    document.getElementById("gamePage").style.display = "block";
+}
+
 
 function hideAll() {
     var menuButton = document.getElementById("menu-icon");
@@ -28,4 +33,5 @@ function hideAll() {
     document.getElementById("Login").style.display = "none";
     document.getElementById("HomeScreen").style.display = "none";
     document.getElementById("loggedInPage").style.display = "none";
+    document.getElementById("gamePage").style.display = "none";
 }
