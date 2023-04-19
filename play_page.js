@@ -2,13 +2,16 @@ var GoodSpaceship = new Object;
 var c = document.getElementById("MyCanvas");
 var ctx = c.getContext("2d");
 var intervalGap = 20;
-var intervalGap = 20;
 var GoodSSImg = new Image();
-GoodSSImg.src = "spaceShip.png";
+GoodSSImg.src = "goodSpaceShip1.png";
 var BadSSImg = new Image();
 BadSSImg.src = 'chicken.png';
 var bomb_img = new Image();
 bomb_img.src = 'bomb.png';
+var egg_img = new Image();
+egg_img.src = 'egg.png';
+var shot_img = new Image();
+shot_img.src = 'shot.png';
 var img_height = c.height/4; 
 var img_width = c.width/4;
 var shoot = null;
@@ -26,8 +29,11 @@ var gSSshots=[];
 var bSSshots=[];
 var ballSize=10;
 var badSSspeed = 8; 
-var eggPixelSize = img_height/17
-
+var egg_size = img_width/4;
+var shot_jump = 8;
+var startPoint;
+var badSSJump = img_width/badSSspeed;
+var to_load;
 
 
 
@@ -50,16 +56,14 @@ function initiateBadSSsYLocation(firstSpacehipI){
 function addBSSshot(){
     badSSRandomized = bSSAlive[Math.floor(Math.random() * bSSAlive.length)]
     var shot = new Object();
-    shot.i=badSSRandomized.i;
-    shot.j=badSSRandomized.j;
+    shot.i=badSSRandomized.i+img_width/2;
+    shot.j=badSSRandomized.j+img_height;
     bSSshots.push(shot);
 }
 
 function Start() {
    $('#MyCanvas').attr("width",$(window).width());
    $('#MyCanvas').attr("height",$(window).height());
-    img_height = c.height/20;
-    img_width = c.width/20;
     function createBadspaceShips(){    
         function initiateObjects(){
             const numRows = 5;
@@ -79,10 +83,12 @@ function Start() {
         initiateBadSSsYLocation(0);
     }
     createBadspaceShips();
-    addBSSshot();
     start_time= new Date();
-    GoodSpaceship.i=img_width * Math.floor(Math.random() * Math.floor(c.width/img_width));
+    startPoint = img_width * Math.floor(Math.random() * Math.floor(c.width/img_width));
+    GoodSpaceship.i=startPoint;
     GoodSpaceship.j=c.height- img_height;
+    GoodSpaceship.time_shot = 0
+    GoodSpaceship.dead = false
     addEventListener("keydown", function (e) {
         keyDown = e.key;}, false);
 
@@ -91,25 +97,39 @@ function Start() {
 
 
 function Update() {
-    function hit(shot, SS){
-        if(shot.i>=SS.i&&shot.i<=SS.i+img_width&&shot.j>=SS.j&&shot.j<=SS.j+img_height){
+    function addBSSshot(){
+        badSSRandomized = bSSAlive[Math.floor(Math.random() * bSSAlive.length)]
+        var shot = new Object();
+        shot.i=badSSRandomized.i+img_width/2;
+        shot.j=badSSRandomized.j+img_height;
+        bSSshots.push(shot);
+    }
+    function hit(shot,shot_width, shot_height, SS){
+        if(shot.i>=SS.i-shot_width&&shot.i<=SS.i+img_width+shot_width&&shot.j>=SS.j-shot_height&&shot.j<=SS.j+img_height+shot_height){
             return true;
         }
         return false;
     }
     function updategbSSshots(){
         for (var i = 0; i < bSSshots.length; i++) {
-            bSSshots[i].j+=8;
+            bSSshots[i].j+=shot_jump;
             if(bSSshots[i].j>c.height){
                 bSSshots.splice(i,1);
                 i--;
                 continue;
             }
         }
-    }
+        for (var j = 0; j < bSSshots.length; j++) {
+            if (hit(bSSshots[j],egg_size,egg_size,GoodSpaceship)){
+                bSSshots.splice(j,1);
+                GoodSpaceship.time_shot = new Date();
+                return
+            }
+        }
+    }  
     function updategSSshots(){
         for (var i = 0; i < gSSshots.length; i++) {
-            gSSshots[i].j-=8;
+            gSSshots[i].j-=shot_jump;
             if(gSSshots[i].j<0){
                 gSSshots.splice(i,1);
                 i--;
@@ -119,7 +139,7 @@ function Update() {
             for (var k = 0; k < badspaceShips.length; k++) {
                 for (var j = 0; j < badspaceShips[k].length; j++) {
                     if(badspaceShips[k][j].alive){
-                        if (hit(gSSshots[i],badspaceShips[k][j])){
+                        if (hit(gSSshots[i],egg_size,egg_size,badspaceShips[k][j])){
                             gSSshots.splice(i,1);
                             badspaceShips[k][j].alive = false;
                             badspaceShips[k][j].death_time=new Date();
@@ -134,6 +154,8 @@ function Update() {
     }
     var jump_size_vertical = img_height/2;
     var jump_size_horizontal = img_width/2;
+    if (!(GoodSpaceship.dead)){
+
     if(keyDown=="ArrowUp")
     {
 
@@ -173,6 +195,7 @@ function Update() {
             gSSshots.push(shot);
           }
     }
+}
     if(keyDown=="Escape"){
         window.clearInterval(interval);
         $("#MyCanvas").hide();
@@ -181,30 +204,50 @@ function Update() {
 
     }
     else{
+        if(!GoodSpaceship.dead){
+
         if(badspaceShips[4][0].i<c.width-img_width && spaceshipsMovement == "right"){
             initiateBadSSsYLocation(badspaceShips[0][0].i+img_width/badSSspeed,0);
         }
         else{
             spaceshipsMovement = "left";
             if(badspaceShips[0][0].i>0){
-                initiateBadSSsYLocation(badspaceShips[0][0].i-img_width/badSSspeed);
+                initiateBadSSsYLocation(badspaceShips[0][0].i-badSSJump);
             }
             else{
-                initiateBadSSsYLocation(badspaceShips[0][0].i+img_width/badSSspeed);
+                initiateBadSSsYLocation(badspaceShips[0][0].i+badSSJump);
                 spaceshipsMovement = "right"
             }
         }
+    }
+        if( GoodSpaceship.dead&&new Date()-GoodSpaceship.time_shot>=500){
+            GoodSpaceship.i=startPoint;
+            GoodSpaceship.j=c.height- img_height;
+        }
+        GoodSpaceship.dead = GoodSpaceship.time_shot>0&&new Date()-GoodSpaceship.time_shot<=1000;
+
         Draw();
+        if(!GoodSpaceship.dead){
         updategSSshots();
         updategbSSshots();
+        }
 
     }
+    if(!GoodSpaceship.dead){
     time_elapsed=(new Date()-start_time)/1000;
+    }
     if(new Date()-lastShotTime>gSSshotsTimeGap){
         goodSScanShoot = true;
     }
-    if(bSSshots[bSSshots.length-1].j>c.height*0.75){
+    if(bSSshots.length==0){
         addBSSshot();
+
+}
+    else{
+        if(bSSshots[bSSshots.length-1].j>c.height*0.75){
+            addBSSshot();
+        }
+
     }
     keyDown=null;
 }
@@ -241,7 +284,6 @@ function Draw(){
         }  
     }
     function draw_time(){
-        draw_badSpaceships();
 
         time_elapsed =Math.floor(time_elapsed * 10) / 10
         ctx.font = '40px Verdana';
@@ -250,73 +292,74 @@ function Draw(){
     }
     function draw_gSSshots(){
         function draw_bullet(i,j,loading){
+            function draw_shot(i,j){
+                ctx.drawImage(shot_img, i-egg_size/2, j-egg_size, egg_size,egg_size);
+            }
             ctx.beginPath();
-
             ctx.strokeStyle ="lightblue";
             ctx.lineWidth = 4;
             ctx.beginPath();
             var radius = 5
-            if(loading){
-                var to_load = ((new Date()-lastShotTime)/gSSshotsTimeGap) 
-                if (to_load<2){
-                    ctx.arc(i, j-radius-ctx.lineWidth/2 ,radius, 0, 2 * to_load * Math.PI);
+                if(loading){
+                    if(!( GoodSpaceship.dead)){
+                        to_load = ((new Date()-lastShotTime)/gSSshotsTimeGap)
+
+                    if (to_load<=1){
+                        ctx.arc(i, j-radius-ctx.lineWidth/2 ,radius, 0, 2 * to_load * Math.PI);
+                    }
+                    else{
+                        draw_shot(i,j);
+                    }
+                }
+                if( GoodSpaceship.dead&&new Date()-GoodSpaceship.time_shot>=500){
+
+                        draw_shot(i,j);
+                    }
                 }
                 else{
-                    ctx.arc(i, j-radius-ctx.lineWidth/2 ,radius, 0, 2* Math.PI);
-                }
-            }
-            else{
 
-                ctx.arc(i, j-radius-ctx.lineWidth/2 ,radius, 0, 2* Math.PI);
-            }
-            ctx.stroke();
+                    draw_shot(i,j);
+                }
+                ctx.stroke();
+            
         }
-        draw_bullet(GoodSpaceship.i+img_width/2, GoodSpaceship.j,true);   
+        draw_bullet(GoodSpaceship.i+img_width/2, GoodSpaceship.j,true);
+           
         for (var i = 0; i < gSSshots.length; i++) {
             draw_bullet(gSSshots[i].i,gSSshots[i].j,false);
         }
     }
     function draw_bSSshots(){
         function draw_egg(i,j){
-            ctx.strokeStyle = "white"; 
-            ctx.lineWidth = eggPixelSize;
-            var i = i+img_width/2
-            var j = j+img_height
-            ctx.beginPath();
-            ctx.moveTo(i, j);
-            ctx.lineTo(i, j+eggPixelSize*5);
-            ctx.stroke();
-            ctx.moveTo(i-1*eggPixelSize, j);
-            ctx.lineTo(i-1*eggPixelSize, j+eggPixelSize*5);
-            ctx.stroke();
-            ctx.moveTo(i+1*eggPixelSize, j);
-            ctx.lineTo(i+1*eggPixelSize, j+eggPixelSize*5);
-            ctx.stroke();
-            ctx.moveTo(i-2*eggPixelSize, j+eggPixelSize);
-            ctx.lineTo(i-2*eggPixelSize, j+eggPixelSize*5);
-            ctx.stroke();
-            ctx.moveTo(i+2*eggPixelSize, j+eggPixelSize);
-            ctx.lineTo(i+2*eggPixelSize, j+eggPixelSize*5);
-            ctx.stroke();
-            ctx.moveTo(i-3*eggPixelSize, j+2*eggPixelSize);
-            ctx.lineTo(i-3*eggPixelSize, j+eggPixelSize*4);
-            ctx.stroke();
-            ctx.moveTo(i+3*eggPixelSize, j+2*eggPixelSize);
-            ctx.lineTo(i+3*eggPixelSize, j+eggPixelSize*4);
-            ctx.stroke();
-
+            ctx.drawImage(egg_img, i, j, egg_size,egg_size);
         }
+        
         for (var i = 0; i < bSSshots.length; i++) {
             draw_egg(bSSshots[i].i,bSSshots[i].j);
+        }
+    }
+    function Draw_gSS(){
+        if (GoodSpaceship.dead){
+            if( GoodSpaceship.dead&&new Date()-GoodSpaceship.time_shot>=500){
+            ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height);
+
+            }
+            else{
+            ctx.drawImage(bomb_img, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height);
+            }
+        }
+        else{
+            ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height);
         }
     }
     c.width=c.width;
     draw_line();
     draw_text();
-    ctx.drawImage(GoodSSImg, GoodSpaceship.i, GoodSpaceship.j, img_width,img_height*2);
-    draw_time();
+    Draw_gSS();
     draw_gSSshots();
     draw_bSSshots();
+    draw_badSpaceships();
+    draw_time();
 
 }
 
