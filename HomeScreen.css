@@ -18,7 +18,7 @@ body {
     --theme-text: white;
     --theme-shadow: hsl(180 100% 10% / 25%);
     --_max-rotateY: 10deg;
-    --_max-rotateX: 15deg;
+    --_max-rotateX: 30deg;
     --_btn-bg: var(--theme-bg);
     --_btn-bg-hover: var(--theme-bg-hover);
     --_btn-text: var(--theme-text);
@@ -34,16 +34,18 @@ body {
     transform: rotateY(clamp(calc(var(--_max-rotateY) * -1), var(--y), var(--_max-rotateY))) rotateX(clamp(calc(var(--_max-rotateX) * -1), var(--x), var(--_max-rotateX)))
 }
 
-.threeD-button-set h1,h5 {
+.threeD-button-set h1,
+h5 {
     color: aliceblue;
     font-family: 'Public Pixel', sans-serif;
     stroke: #362c2f;
 }
 
-.threeD-button-set h1{
+.threeD-button-set h1 {
     font-size: 300%;
 }
-.threeD-button-set h5{
+
+.threeD-button-set h5 {
     font-size: 150%;
 }
 
@@ -69,7 +71,7 @@ input[type="password"] {
     list-style-type: none;
 }
 
-.threeD-button-set button{
+.threeD-button-set button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -135,7 +137,7 @@ input[type="password"] {
 
 
 @media (prefers-reduced-motion:no-preference) {
-    .threeD-button-set button{
+    .threeD-button-set button {
         will-change: transform;
         transition: transform .2s ease, background-color .5s ease
     }
@@ -163,9 +165,9 @@ html {
     background: conic-gradient(at -10% 50%, #362c2f, #0ff)
 }
 
-form { 
+form {
     text-align: center;
-    }
+}
 
 
 .threeD-button-set input {
@@ -323,7 +325,7 @@ form {
 
 .stars span:nth-child(10) {
     top: 0px;
-    right: 1000px;
+    right: 1200px;
     left: initial;
     animation-delay: 2.75s;
     animation-duration: 2.25s;
@@ -338,3 +340,7 @@ form {
     text-align: center;
 }
 
+.sign-up td {
+    width: 40%;
+    height: 20%;
+}
