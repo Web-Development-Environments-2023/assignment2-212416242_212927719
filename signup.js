@@ -24,3 +24,16 @@ function submitSignUp() {
     }
 }
 
+
+
+function tryLogin() {
+    let username = document.getElementById('loginUserName').value;
+    let password = document.getElementById('loginPassword').value;
+    if (users[username].password === password) {
+        console.log("loggedin");
+        loggedInUser = users[username];
+        document.getElementById("helloText").value = "Hello " + loggedInUser.firstName + " " + loggedInUser.lastName;
+        goToLoggedInPage();
+    }
+
+}
