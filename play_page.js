@@ -4,8 +4,14 @@ var ctx = c.getContext("2d");
 var intervalGap = 20;
 var GoodSSImg = new Image();
 GoodSSImg.src = "goodSpaceShip1.png";
-var BadSSImg = new Image();
-BadSSImg.src = "chicken.png";
+var BadSS1Img = new Image();
+BadSS1Img.src = "chicken.png";
+var BadSS2Img = new Image();
+BadSS2Img.src = "redChicken.webp";
+var BadSS3Img = new Image();
+BadSS3Img.src = "armyChicken.png";
+var BadSS4Img = new Image();
+BadSS4Img.src = "superManChicken.webp";
 var bomb_img = new Image();
 bomb_img.src = "bomb.png";
 var egg_img = new Image();
@@ -14,6 +20,8 @@ var snow_img = new Image();
 snow_img.src = "snowFlake.png";
 var shot_img = new Image();
 shot_img.src = "shot.png";
+var heartImg = new Image();
+heartImg.src = "heart.jpg";
 var img_height = c.height / 4;
 var img_width = c.width / 4;
 var shoot = null;
@@ -38,12 +46,15 @@ var badSSJump = img_width / badSSspeed;
 var to_load;
 var snow;
 var once = false;
+var points;
 var freeze_time = 3
 var enemyDestroySound = new Audio('sound_chicken-sound.mp3');
 var shipDestroySound = new Audio('sound_destroy.mp3');
 var shotSound = new Audio('sound_sfx-laser1.ogg');
 var freezeSound = new Audio('freeze.mp3');
 var backgroundSound = new Audio('background.mp3');
+var lives = 3;
+var max_time = 10;
 
 function initiateBadSSsYLocation(firstSpacehipI) {
   badspaceShips[0][0].i = firstSpacehipI;
@@ -87,6 +98,7 @@ function Start() {
         }
       }
     }
+    points = 0;
     initiateObjects();
     initiateBadSSsYLocation(0);
   }
@@ -152,6 +164,7 @@ function Update() {
         shipDestroySound.play();
         bSSshots.splice(j, 1);
         GoodSpaceship.time_shot = new Date();
+        lives-=1
         return;
       }
     }
@@ -174,6 +187,7 @@ function Update() {
               badspaceShips[k][j].death_time = new Date();
               bSSAlive.splice(bSSAlive.indexOf(badspaceShips[k][j]), 1);
               i--;
+              points+=(4-(j))*5;
               break outerloop;
             }
           }
@@ -234,25 +248,43 @@ function Update() {
     $("#MyCanvas").hide();
     $("#startButton").show();
     $("#myInput").show();
+
   } else {
     if (!GoodSpaceship.dead && !snow.activated) {
+        var new_speed = badSSspeed 
+        if(time_elapsed>5&&time_elapsed<10){
+            new_speed  = 1.5*  badSSspeed
+        }
+        if(time_elapsed>=10&&time_elapsed<15){
+            new_speed  = 2*  badSSspeed
+        }
+        if(time_elapsed>=15){
+            new_speed  = 2.5*  badSSspeed
+        }
       if (
         badspaceShips[4][0].i < c.width - img_width &&
         spaceshipsMovement == "right"
       ) {
         initiateBadSSsYLocation(
-          badspaceShips[0][0].i + img_width / badSSspeed,
-          0
-        );
+          badspaceShips[0][0].i + new_speed);
       } else {
         spaceshipsMovement = "left";
         if (badspaceShips[0][0].i > 0) {
-          initiateBadSSsYLocation(badspaceShips[0][0].i - badSSJump);
+          initiateBadSSsYLocation(badspaceShips[0][0].i - new_speed);
         } else {
-          initiateBadSSsYLocation(badspaceShips[0][0].i + badSSJump);
+          initiateBadSSsYLocation(badspaceShips[0][0].i + new_speed);
           spaceshipsMovement = "right";
         }
       }
+    }
+    if (lives == 0||bSSAlive.length==0||time_elapsed>=max_time) {
+        setTimeout(function() {
+            backgroundSound.pause();
+            window.clearInterval(interval);
+            $("#MyCanvas").hide();
+            $("#startButton").show();
+            $("#myInput").show()
+        }, 500);    
     }
     if (GoodSpaceship.dead && new Date() - GoodSpaceship.time_shot >= 500) {
       GoodSpaceship.i = startPoint;
@@ -334,11 +366,24 @@ function Draw() {
     ctx.fillText("can't cross", 0, c.height * 0.6);
   }
   function draw_badSpaceships() {
+    var img;
     for (var i = 0; i < badspaceShips.length; i++) {
       for (var j = 0; j < badspaceShips[i].length; j++) {
+        if(j==3){
+            img = BadSS1Img;
+        }
+        if(j==2){
+            img = BadSS2Img;
+        }
+        if(j==1){
+            img = BadSS3Img;
+        }
+        if(j==0){
+            img = BadSS4Img;
+        }
         if (badspaceShips[i][j].alive) {
           ctx.drawImage(
-            BadSSImg,
+            img,
             badspaceShips[i][j].i,
             badspaceShips[i][j].j,
             img_width,
@@ -449,6 +494,19 @@ function Draw() {
       );
     }
   }
+  function Draw_freeze() {
+    if (snow.falling) {
+        ctx.drawImage(snow_img, snow.i, snow.j, 2* egg_size, 2*egg_size);
+      }
+      if(snow.activated){
+        ctx.beginPath();
+        var time_pass = (new Date() - snow.activated_time)/1000;
+        var timer = freeze_time - (Math.floor(time_pass * 10) / 10);
+        ctx.font = "30px";
+        ctx.fillStyle = "lightblue";
+        ctx.fillText(Math.round(timer*10)/10 + "s", 0, 70);
+      }
+  }
   c.width = c.width;
   draw_line();
   draw_text();
@@ -457,17 +515,25 @@ function Draw() {
   draw_bSSshots();
   draw_badSpaceships();
   draw_time();
-  if (snow.falling) {
-    ctx.drawImage(snow_img, snow.i, snow.j, 2* egg_size, 2*egg_size);
+  Draw_freeze();
+  ctx.beginPath();
+  ctx.font = "30px";
+  ctx.fillStyle = "red";
+  ctx.fillText("POINTS: "+ points,c.width/2-100 , 35);
+  if(lives==1){
+  ctx.drawImage(heartImg, 0, c.height-2*egg_size, 2*egg_size,2* egg_size);
   }
-  if(snow.activated){
-    ctx.beginPath();
-    var time_pass = (new Date() - snow.activated_time)/1000;
-    var timer = freeze_time - (Math.floor(time_pass * 10) / 10);
-    ctx.font = "40px Verdana";
-    ctx.fillStyle = "lightblue";
-    ctx.fillText(Math.round(timer*10)/10 + "s", 0, 75);
+  if (lives==2){
+    ctx.drawImage(heartImg, 0, c.height-2*egg_size, 2*egg_size,2* egg_size);
+  ctx.drawImage(heartImg, 2*egg_size, c.height-2*egg_size, 2*egg_size,2* egg_size);
   }
+  if (lives==3){
+    ctx.drawImage(heartImg, 0, c.height-2*egg_size, 2*egg_size,2* egg_size);
+  ctx.drawImage(heartImg, 2*egg_size, c.height-2*egg_size, 2*egg_size,2* egg_size);
+  ctx.drawImage(heartImg, 4*egg_size, c.height-2*egg_size, 2*egg_size, 2*egg_size);
+  }
+
+
 }
 
 $("#MyCanvas").hide();
