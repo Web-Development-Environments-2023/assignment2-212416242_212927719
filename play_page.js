@@ -165,7 +165,7 @@ function Update() {
         shipDestroySound.play();
         bSSshots.splice(j, 1);
         GoodSpaceship.time_shot = new Date();
-        lives-=1
+        lives -= 1
         return;
       }
     }
@@ -182,13 +182,13 @@ function Update() {
         for (var j = 0; j < badspaceShips[k].length; j++) {
           if (badspaceShips[k][j].alive) {
             if (hit(gSSshots[i], egg_size, egg_size, badspaceShips[k][j])) {
-            enemyDestroySound.play();
+              enemyDestroySound.play();
               gSSshots.splice(i, 1);
               badspaceShips[k][j].alive = false;
               badspaceShips[k][j].death_time = new Date();
               bSSAlive.splice(bSSAlive.indexOf(badspaceShips[k][j]), 1);
               i--;
-              points+=(4-(j))*5;
+              points += (4 - (j)) * 5;
               break outerloop;
             }
           }
@@ -198,8 +198,8 @@ function Update() {
   }
   function updateSnow() {
     snow.j += shot_jump;
-    if (hit(snow, 2* egg_size, 2*egg_size, GoodSpaceship)) {
-        freezeSound.play();
+    if (hit(snow, 2 * egg_size, 2 * egg_size, GoodSpaceship)) {
+      freezeSound.play();
       snow.activated = true;
       snow.activated_time = new Date();
       snow.falling = false;
@@ -246,22 +246,23 @@ function Update() {
   if (keyDown == "Escape") {
     backgroundSound.pause();
     window.clearInterval(interval);
-    $("#MyCanvas").hide();
-    $("#startButton").show();
-    $("#myInput").show();
+    //Game Ended
+    // $("#MyCanvas").hide();
+    // $("#startButton").show();
+    // $("#myInput").show();
 
   } else {
     if (!GoodSpaceship.dead && !snow.activated) {
-        var new_speed = badSSspeed 
-        if(time_elapsed>5&&time_elapsed<10){
-            new_speed  = 1.5*  badSSspeed
-        }
-        if(time_elapsed>=10&&time_elapsed<15){
-            new_speed  = 2*  badSSspeed
-        }
-        if(time_elapsed>=15){
-            new_speed  = 2.5*  badSSspeed
-        }
+      var new_speed = badSSspeed
+      if (time_elapsed > 5 && time_elapsed < 10) {
+        new_speed = 1.5 * badSSspeed
+      }
+      if (time_elapsed >= 10 && time_elapsed < 15) {
+        new_speed = 2 * badSSspeed
+      }
+      if (time_elapsed >= 15) {
+        new_speed = 2.5 * badSSspeed
+      }
       if (
         badspaceShips[4][0].i < c.width - img_width &&
         spaceshipsMovement == "right"
@@ -278,15 +279,16 @@ function Update() {
         }
       }
     }
-    if (lives == 0||bSSAlive.length==0||time_elapsed>=max_time) {
-        GoodSpaceship.alive=false
-        setTimeout(function() {
-            backgroundSound.pause();
-            window.clearInterval(interval);
-            $("#MyCanvas").hide();
-            $("#startButton").show();
-            $("#myInput").show()
-        }, 500);    
+    if (lives == 0 || bSSAlive.length == 0 || time_elapsed >= max_time) {
+      GoodSpaceship.alive = false
+      setTimeout(function () {
+        backgroundSound.pause();
+        window.clearInterval(interval);
+        //Game Ended
+        // $("#MyCanvas").hide();
+        // $("#startButton").show();
+        // $("#myInput").show()
+      }, 500);
     }
     if (GoodSpaceship.dead && new Date() - GoodSpaceship.time_shot >= 500) {
       GoodSpaceship.i = startPoint;
@@ -321,10 +323,10 @@ function Update() {
       once = false;
     }
   }
-  if(snow.activated&&(new Date()-snow.activated_time)>freeze_time*1000){
+  if (snow.activated && (new Date() - snow.activated_time) > freeze_time * 1000) {
     snow.activated = false
     snow.timeOfFalling.setSeconds(snow.timeOfFalling.getSeconds() + freeze_time);
-}
+  }
   if (
     new Date() - snow.timeOfFalling > 10000 &&
     !snow.falling &&
@@ -371,17 +373,17 @@ function Draw() {
     var img;
     for (var i = 0; i < badspaceShips.length; i++) {
       for (var j = 0; j < badspaceShips[i].length; j++) {
-        if(j==3){
-            img = BadSS1Img;
+        if (j == 3) {
+          img = BadSS1Img;
         }
-        if(j==2){
-            img = BadSS2Img;
+        if (j == 2) {
+          img = BadSS2Img;
         }
-        if(j==1){
-            img = BadSS3Img;
+        if (j == 1) {
+          img = BadSS3Img;
         }
-        if(j==0){
-            img = BadSS4Img;
+        if (j == 0) {
+          img = BadSS4Img;
         }
         if (badspaceShips[i][j].alive) {
           ctx.drawImage(
@@ -498,16 +500,16 @@ function Draw() {
   }
   function Draw_freeze() {
     if (snow.falling) {
-        ctx.drawImage(snow_img, snow.i, snow.j, 2* egg_size, 2*egg_size);
-      }
-      if(snow.activated){
-        ctx.beginPath();
-        var time_pass = (new Date() - snow.activated_time)/1000;
-        var timer = freeze_time - (Math.floor(time_pass * 10) / 10);
-        ctx.font = "30px";
-        ctx.fillStyle = "lightblue";
-        ctx.fillText(Math.round(timer*10)/10 + "s", 0, 70);
-      }
+      ctx.drawImage(snow_img, snow.i, snow.j, 2 * egg_size, 2 * egg_size);
+    }
+    if (snow.activated) {
+      ctx.beginPath();
+      var time_pass = (new Date() - snow.activated_time) / 1000;
+      var timer = freeze_time - (Math.floor(time_pass * 10) / 10);
+      ctx.font = "30px";
+      ctx.fillStyle = "lightblue";
+      ctx.fillText(Math.round(timer * 10) / 10 + "s", 0, 70);
+    }
   }
   c.width = c.width;
   draw_line();
@@ -521,25 +523,24 @@ function Draw() {
   ctx.beginPath();
   ctx.font = "30px";
   ctx.fillStyle = "red";
-  ctx.fillText("POINTS: "+ points,c.width/2-100 , 35);
-  if(lives==1){
-  ctx.drawImage(heartImg, 0, c.height-2*egg_size, 2*egg_size,2* egg_size);
+  ctx.fillText("POINTS: " + points, c.width / 2 - 100, 35);
+  if (lives == 1) {
+    ctx.drawImage(heartImg, 0, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
   }
-  if (lives==2){
-    ctx.drawImage(heartImg, 0, c.height-2*egg_size, 2*egg_size,2* egg_size);
-  ctx.drawImage(heartImg, 2*egg_size, c.height-2*egg_size, 2*egg_size,2* egg_size);
+  if (lives == 2) {
+    ctx.drawImage(heartImg, 0, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
+    ctx.drawImage(heartImg, 2 * egg_size, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
   }
-  if (lives==3){
-    ctx.drawImage(heartImg, 0, c.height-2*egg_size, 2*egg_size,2* egg_size);
-  ctx.drawImage(heartImg, 2*egg_size, c.height-2*egg_size, 2*egg_size,2* egg_size);
-  ctx.drawImage(heartImg, 4*egg_size, c.height-2*egg_size, 2*egg_size, 2*egg_size);
+  if (lives == 3) {
+    ctx.drawImage(heartImg, 0, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
+    ctx.drawImage(heartImg, 2 * egg_size, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
+    ctx.drawImage(heartImg, 4 * egg_size, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
   }
 
 
 }
 
-$("#MyCanvas").hide();
-const input = document.getElementById("myInput");
+const input = document.getElementById("shootKey");
 input.addEventListener(
   "keydown",
   function (e) {
@@ -554,19 +555,11 @@ input.addEventListener(
   },
   false
 );
-const myButton = document.getElementById("startButton");
-startButton.addEventListener(
-  "click",
-  function () {
-    if (shoot == null) {
-      $("#mytextarea").empty();
-      $("#mytextarea").append(" *fill the box");
-    } else {
-      $("#MyCanvas").show();
-      $(document).ready(Start);
-      $("#startButton").hide();
-      $("#myInput").hide();
-    }
-  },
-  false
-);
+
+function startGame() {
+  if (shoot != null) {
+    goToGamePage();
+    Start()
+  }
+
+}
