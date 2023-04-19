@@ -299,15 +299,6 @@
         right: 30px;
     }
 
-    h1 {
-        font-size: 9vw;
-        -webkit-text-stroke: 2px transparent;
-        text-stroke: 2px transparent;
-        -webkit-text-fill-color: #ffeba7;
-        text-fill-color: #ffeba7;
-        color: #ffeba7;
-    }
-
     .nav ul li a {
         font-size: 8vh;
     }
