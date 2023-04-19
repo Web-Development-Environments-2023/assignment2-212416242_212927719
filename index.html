@@ -13,8 +13,11 @@
 </head>
 
 <body>
-    <script src="menu.js"></script>
-
+    <script src="navigateWindows.js"></script>
+    <script src="signup.js"></script>
+    <input class="menu-icon" type="checkbox" id="menu-icon" name="menu-icon" />
+    <label for="menu-icon"></label>
+    <nav id="menu" class="nav">
     <section class="stars">
         <span></span>
         <span></span>
@@ -27,7 +30,13 @@
         <span></span>
         <span></span>
     </section>
-    <div id="HomeScreen" hidden>
+        <ul class="pt-5">
+            <li><a onclick="goToHomePage()" href="#">Home</a></li>
+            <li><a onclick="goToSignUpPage()" href="#">Sign Up</a></li>
+            <li><a onclick="goToLoginPage()" href="#">Login</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
         <ul class="threeD-button-set">
             <h1>Chicken Invaders</h1>
             <br>
