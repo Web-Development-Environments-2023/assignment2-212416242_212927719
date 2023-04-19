@@ -37,6 +37,13 @@ var startPoint;
 var badSSJump = img_width / badSSspeed;
 var to_load;
 var snow;
+var once = false;
+var freeze_time = 3
+var enemyDestroySound = new Audio('sound_chicken-sound.mp3');
+var shipDestroySound = new Audio('sound_destroy.mp3');
+var shotSound = new Audio('sound_sfx-laser1.ogg');
+var freezeSound = new Audio('freeze.mp3');
+var backgroundSound = new Audio('background.mp3');
 
 function initiateBadSSsYLocation(firstSpacehipI) {
   badspaceShips[0][0].i = firstSpacehipI;
@@ -64,6 +71,7 @@ function addBSSshot() {
 function Start() {
   $("#MyCanvas").attr("width", $(window).width());
   $("#MyCanvas").attr("height", $(window).height());
+  backgroundSound.play();
   function createBadspaceShips() {
     function initiateObjects() {
       const numRows = 5;
@@ -94,6 +102,8 @@ function Start() {
   snow.falling = false;
   snow.timeOfFalling = 0;
   snow.j = 0;
+  snow.activated = false;
+  snow.activated_time = 0;
   addEventListener(
     "keydown",
     function (e) {
@@ -107,12 +117,12 @@ function Start() {
 
 function Update() {
   function addBSSshot() {
-    if (bSSAlive.length>0){
-    badSSRandomized = bSSAlive[Math.floor(Math.random() * bSSAlive.length)];
-    var shot = new Object();
-    shot.i = badSSRandomized.i + img_width / 2;
-    shot.j = badSSRandomized.j + img_height;
-    bSSshots.push(shot);
+    if (bSSAlive.length > 0) {
+      badSSRandomized = bSSAlive[Math.floor(Math.random() * bSSAlive.length)];
+      var shot = new Object();
+      shot.i = badSSRandomized.i + img_width / 2;
+      shot.j = badSSRandomized.j + img_height;
+      bSSshots.push(shot);
     }
   }
   function hit(shot, shot_width, shot_height, SS) {
@@ -127,16 +137,19 @@ function Update() {
     return false;
   }
   function updategbSSshots() {
-    for (var i = 0; i < bSSshots.length; i++) {
-      bSSshots[i].j += shot_jump;
-      if (bSSshots[i].j > c.height) {
-        bSSshots.splice(i, 1);
-        i--;
-        continue;
+    if (!snow.activated) {
+      for (var i = 0; i < bSSshots.length; i++) {
+        bSSshots[i].j += shot_jump;
+        if (bSSshots[i].j > c.height) {
+          bSSshots.splice(i, 1);
+          i--;
+          continue;
+        }
       }
     }
     for (var j = 0; j < bSSshots.length; j++) {
       if (hit(bSSshots[j], egg_size, egg_size, GoodSpaceship)) {
+        shipDestroySound.play();
         bSSshots.splice(j, 1);
         GoodSpaceship.time_shot = new Date();
         return;
@@ -155,6 +168,7 @@ function Update() {
         for (var j = 0; j < badspaceShips[k].length; j++) {
           if (badspaceShips[k][j].alive) {
             if (hit(gSSshots[i], egg_size, egg_size, badspaceShips[k][j])) {
+            enemyDestroySound.play();
               gSSshots.splice(i, 1);
               badspaceShips[k][j].alive = false;
               badspaceShips[k][j].death_time = new Date();
@@ -168,10 +182,16 @@ function Update() {
     }
   }
   function updateSnow() {
-      snow.j += shot_jump;
-      if (snow.j > c.height) {
-        snow.falling = false;
-      }
+    snow.j += shot_jump;
+    if (hit(snow, 2* egg_size, 2*egg_size, GoodSpaceship)) {
+        freezeSound.play();
+      snow.activated = true;
+      snow.activated_time = new Date();
+      snow.falling = false;
+    }
+    if (snow.j > c.height) {
+      snow.falling = false;
+    }
   }
   var jump_size_vertical = img_height / 2;
   var jump_size_horizontal = img_width / 2;
@@ -198,6 +218,7 @@ function Update() {
     }
     if (keyDown == shoot) {
       if (goodSScanShoot) {
+        shotSound.play();
         lastShotTime = new Date();
         goodSScanShoot = false;
         var shot = new Object();
@@ -208,12 +229,13 @@ function Update() {
     }
   }
   if (keyDown == "Escape") {
+    backgroundSound.pause();
     window.clearInterval(interval);
     $("#MyCanvas").hide();
     $("#startButton").show();
     $("#myInput").show();
   } else {
-    if (!GoodSpaceship.dead) {
+    if (!GoodSpaceship.dead && !snow.activated) {
       if (
         badspaceShips[4][0].i < c.width - img_width &&
         spaceshipsMovement == "right"
@@ -242,22 +264,42 @@ function Update() {
 
     Draw();
     if (!GoodSpaceship.dead) {
-      updategSSshots();
       updategbSSshots();
-      if(snow.falling){
-        updateSnow()
+
+      updategSSshots();
+
+      if (snow.falling) {
+        updateSnow();
       }
     }
   }
-  if (!GoodSpaceship.dead) {
+
+  if (!GoodSpaceship.dead && !snow.activated) {
     time_elapsed = (new Date() - start_time) / 1000;
+    once = true;
+  } else {
+    if (once) {
+      if (snow.activated) {
+        start_time.setSeconds(start_time.getSeconds() + freeze_time);
+      } else {
+        start_time.setSeconds(start_time.getSeconds() + 1);
+      }
+      once = false;
+    }
   }
-  if ((new Date() - snow.timeOfFalling) > 10000 && !snow.falling && time_elapsed>=10) {
-    console.log(1)
+  if(snow.activated&&(new Date()-snow.activated_time)>freeze_time*1000){
+    snow.activated = false
+    snow.timeOfFalling.setSeconds(snow.timeOfFalling.getSeconds() + freeze_time);
+}
+  if (
+    new Date() - snow.timeOfFalling > 10000 &&
+    !snow.falling &&
+    time_elapsed >= 10
+  ) {
     snow.falling = true;
     snow.timeOfFalling = new Date();
-    snow.i = egg_size + Math.random() * Math.floor(c.width-2*egg_size)
-    snow.j=0;
+    snow.i = egg_size + Math.random() * Math.floor(c.width - 2 * egg_size);
+    snow.j = 0;
   }
   if (new Date() - lastShotTime > gSSshotsTimeGap) {
     goodSScanShoot = true;
@@ -265,8 +307,10 @@ function Update() {
   if (bSSshots.length == 0) {
     addBSSshot();
   } else {
-    if (bSSshots[bSSshots.length - 1].j > c.height * 0.75) {
-      addBSSshot();
+    if (!snow.activated) {
+      if (bSSshots[bSSshots.length - 1].j > c.height * 0.75) {
+        addBSSshot();
+      }
     }
   }
   keyDown = null;
@@ -315,6 +359,7 @@ function Draw() {
     }
   }
   function draw_time() {
+    ctx.beginPath();
     time_elapsed = Math.floor(time_elapsed * 10) / 10;
     ctx.font = "40px Verdana";
     ctx.fillStyle = "white";
@@ -412,7 +457,17 @@ function Draw() {
   draw_bSSshots();
   draw_badSpaceships();
   draw_time();
-  ctx.drawImage(snow_img, snow.i, snow.j, egg_size, egg_size);
+  if (snow.falling) {
+    ctx.drawImage(snow_img, snow.i, snow.j, 2* egg_size, 2*egg_size);
+  }
+  if(snow.activated){
+    ctx.beginPath();
+    var time_pass = (new Date() - snow.activated_time)/1000;
+    var timer = freeze_time - (Math.floor(time_pass * 10) / 10);
+    ctx.font = "40px Verdana";
+    ctx.fillStyle = "lightblue";
+    ctx.fillText(Math.round(timer*10)/10 + "s", 0, 75);
+  }
 }
 
 $("#MyCanvas").hide();

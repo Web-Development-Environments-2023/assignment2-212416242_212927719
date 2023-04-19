@@ -4,8 +4,9 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-
-    background-color: darkblue;
+    background-image: url("background.webp");
+    background-size: cover;
+    
 }
 span{
     color: red;;
