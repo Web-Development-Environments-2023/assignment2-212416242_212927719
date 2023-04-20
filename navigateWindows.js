@@ -4,6 +4,7 @@ function goToSignUpPage() {
 }
 function goToLoginPage() {
     hideAll();
+    $("#errorLogin").empty();
     document.getElementById("Login").style.display = "block";
 }
 
@@ -22,6 +23,27 @@ function goToGamePage() {
     document.getElementById("gamePage").style.display = "block";
 }
 
+function goToScores() {
+    hideAll();
+    updateScoreTable();
+    document.getElementById("scoresPage").style.display = "block";
+}
+
+function openAbout() {
+    var menuButton = document.getElementById("menu-icon");
+    if (menuButton.checked == true) {
+        menuButton.checked = false;
+        setTimeout(() => {
+            window.dialog.showModal();
+        }, 1300);
+
+    }
+    else {
+        window.dialog.showModal();
+    }
+
+}
+
 
 function hideAll() {
     var menuButton = document.getElementById("menu-icon");
@@ -34,4 +56,5 @@ function hideAll() {
     document.getElementById("HomeScreen").style.display = "none";
     document.getElementById("loggedInPage").style.display = "none";
     document.getElementById("gamePage").style.display = "none";
+    document.getElementById("scoresPage").style.display = "none";
 }
