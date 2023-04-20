@@ -22,9 +22,6 @@ function submitSignUp() {
         console.log(users);
         goToHomePage()
     }
-    else {
-        // errorMsg.style.display = 'block';
-    }
 }
 
 
@@ -43,8 +40,8 @@ function tryLogin() {
 }
 
 function loginUser(username) {
-        console.log("loggedin");
-        loggedInUser = users[username];
+    console.log("loggedin");
+    loggedInUser = users[username];
     // UserScores = []
     // document.getElementById("helloText").value = "Hello " + loggedInUser.firstName + " " + loggedInUser.lastName;
     goToHomePage();
@@ -58,7 +55,7 @@ function loginUser(username) {
     document.getElementById('menu_login').style.display = "none";
     document.getElementById('menu_scores').style.display = "block";
     document.getElementById('menu_logout').style.display = "block";
-    }
+}
 
 function logOutUser() {
     loggedInUser = null;
