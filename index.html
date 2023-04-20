@@ -60,18 +60,24 @@
         <span></span>
     </section>
     <div class="section-center">
-        <div id="HomeScreen" hidden>
+        <div id="HomeScreen">
             <ul class="threeD-button-set">
                 <h1>Chicken Invaders</h1>
                 <br>
-                <li><button onclick="goToSignUpPage()">Sign up</button></li>
-                <li><button onclick="goToLoginPage()">Login</button></li>
+                <li id="signup"><button onclick="goToSignUpPage()">Sign up</button></li>
+                <li id="login"><button onclick="goToLoginPage()">Login</button></li>
+                <li id="logout" style="display: none;"><button onclick="logOutUser()">Logout</button></li>
+                <li id="playGame" style="display: none;"><button onclick="goToLoggedInPage()">Play Game</button></li>
+                <li id="scores" style="display: none;"><button onclick="goToScores()">Scores</button></li>
+                <li><button onclick="openAbout()">About</button></li>
+
             </ul>
         </div>
         <div id="SignUp" hidden>
             <div class="threeD-button-set">
                 <h1>Sign up</h1>
                 <br>
+                <h5 id="errorSignup" style="color: red;"></h5>
                 <form>
                     <table class="sign-up">
                         <tr>
@@ -124,6 +130,7 @@
                 <input id="loginUserName" type="text">
                 <h5>Password:</h5>
                 <input id="loginPassword" type="password">
+                <h5 id="errorLogin" style="color: red;"></h5>
                 <button onclick="tryLogin()">Login</button>
             </div>
         </div>
