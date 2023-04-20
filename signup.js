@@ -60,4 +60,17 @@ function loginUser(username) {
     document.getElementById('menu_logout').style.display = "block";
     }
 
+function logOutUser() {
+    loggedInUser = null;
+    goToHomePage();
+    document.getElementById('signup').style.display = "block";
+    document.getElementById('login').style.display = "block";
+    document.getElementById('logout').style.display = "none";
+    document.getElementById('playGame').style.display = "none";
+    document.getElementById('scores').style.display = "none";
+
+    document.getElementById('menu_signup').style.display = "block";
+    document.getElementById('menu_login').style.display = "block";
+    document.getElementById('menu_scores').style.display = "none";
+    document.getElementById('menu_logout').style.display = "none";
 }
