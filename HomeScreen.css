@@ -44,11 +44,11 @@ h5,
 
 .threeD-button-set h1,
 .pixeledH1 {
-    font-size: 300%;
+    font-size: 3vw;
 }
 
 .threeD-button-set h5 {
-    font-size: 150%;
+    font-size: 1.2vw;
 }
 
 @media (prefers-reduced-motion:no-preference) {
@@ -178,7 +178,7 @@ form {
     border-radius: 4px;
     background-color: var(--_btn-bg);
     color: var(--theme-text);
-    font-size: 110%;
+    font-size: 0.8vw;
     border-radius: 5px 20px;
     padding: 2%;
     margin: 2%;
