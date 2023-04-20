@@ -1,5 +1,8 @@
 const users = {};
 var loggedInUser;
+var UserScores = [{ score: "10", time: "15", date: "1/1/1", lives: "2" }];
+
+users["p"] = { username: "p", password: "testuser", firstName: "Admin", lastName: "Admin", email: "admin@gmail.com", date: "1/1/1111" }
 
 
 
