@@ -32,11 +32,32 @@ function submitSignUp() {
 function tryLogin() {
     let username = document.getElementById('loginUserName').value;
     let password = document.getElementById('loginPassword').value;
-    if (users[username].password === password) {
+    if (users[username] && users[username].password === password) {
+        loginUser(username);
+    }
+    else {
+        $("#errorLogin").empty();
+        $("#errorLogin").append("Password or username incorrect");
+    }
+
+}
+
+function loginUser(username) {
         console.log("loggedin");
         loggedInUser = users[username];
-        document.getElementById("helloText").value = "Hello " + loggedInUser.firstName + " " + loggedInUser.lastName;
-        goToLoggedInPage();
+    // UserScores = []
+    // document.getElementById("helloText").value = "Hello " + loggedInUser.firstName + " " + loggedInUser.lastName;
+    goToHomePage();
+    document.getElementById('signup').style.display = "none";
+    document.getElementById('login').style.display = "none";
+    document.getElementById('logout').style.display = "block";
+    document.getElementById('playGame').style.display = "block";
+    document.getElementById('scores').style.display = "block";
+
+    document.getElementById('menu_signup').style.display = "none";
+    document.getElementById('menu_login').style.display = "none";
+    document.getElementById('menu_scores').style.display = "block";
+    document.getElementById('menu_logout').style.display = "block";
     }
 
 }
