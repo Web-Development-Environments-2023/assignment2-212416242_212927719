@@ -1,3 +1,33 @@
+const errorlog = document.getElementById("errorSignup");
+function signUpValidation(username, password, confirm_password, firstName, lastName, email,) {
+    if (length_validation(firstName, 0, Object.keys({ firstName })[0])) {
+        if (length_validation(lastName, 0, Object.keys({ lastName })[0])) {
+            if (length_validation(password, 8, Object.keys({ password })[0])) {
+                if (length_validation(confirm_password, 0, Object.keys({ confirm_password })[0])) {
+                    if (length_validation(username, 0, Object.keys({ username })[0])) {
+                        if (length_validation(email, 0, Object.keys({ email })[0])) {
+
+                            if (allLetter(firstName)) {
+                                if (allLetter(lastName)) {
+
+                                    if (ValidateEmail(uemail)) {
+                                        if (password_validation(password)) {
+                                            if (confirm_password_validation(password, confirm_password)) {
+                                                return true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+
+}
 
 function confirm_password_validation(password, confirm_password) {
     if (password === confirm_password) {
