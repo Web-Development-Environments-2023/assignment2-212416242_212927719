@@ -39,9 +39,12 @@
         </section>
         <ul class="pt-5">
             <li><a onclick="goToHomePage()" href="#">Home</a></li>
-            <li><a onclick="goToSignUpPage()" href="#">Sign Up</a></li>
-            <li><a onclick="goToLoginPage()" href="#">Login</a></li>
-            <li><a href="#">About</a></li>
+            <li><a onclick="openAbout()" href="#">About</a></li>
+            <li id="menu_signup"><a onclick="goToSignUpPage()" href="#">Sign Up</a></li>
+            <li id="menu_login"><a onclick="goToLoginPage()" href="#">Login</a></li>
+            <li id="menu_scores" style="display: none;"><a onclick="goToScores()" href="#">Scores</a></li>
+            <li id="menu_logout" style="display: none;"><a onclick="logOutUser()" href="#">Logout</a></li>
+
         </ul>
     </nav>
     <section class="stars">
