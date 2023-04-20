@@ -42,7 +42,7 @@ function tryLogin() {
 function loginUser(username) {
     console.log("loggedin");
     loggedInUser = users[username];
-    // UserScores = []
+    UserScores = [];
     // document.getElementById("helloText").value = "Hello " + loggedInUser.firstName + " " + loggedInUser.lastName;
     goToHomePage();
     document.getElementById('signup').style.display = "none";

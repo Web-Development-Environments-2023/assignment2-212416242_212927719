@@ -2,6 +2,7 @@ var GoodSpaceship = new Object();
 var c = document.getElementById("MyCanvas");
 var ctx = c.getContext("2d");
 var intervalGap = 20;
+var interval;
 var GoodSSImg = new Image();
 GoodSSImg.src = "goodSpaceShip1.png";
 var BadSS1Img = new Image();
@@ -281,18 +282,19 @@ function Update() {
       }
     }
     if (lives == 0 || bSSAlive.length == 0 || time_elapsed >= max_time) {
-      GoodSpaceship.alive = false
-      setTimeout(function () {
-        backgroundSound.pause();
-        window.clearInterval(interval);
-        UserScores.push({ score: points, time: time_elapsed, date: new Date(Date.now()).toDateString, lives: lives });
-        console.log("test");
-        goToScores();
-        //Game Ended
-        // $("#MyCanvas").hide();
-        // $("#startButton").show();
-        // $("#myInput").show()
-      }, 500);
+      console.log(lives)
+      console.log(bSSAlive.length)
+      console.log(time_elapsed)
+
+      backgroundSound.pause();
+      window.clearInterval(interval);
+      UserScores.push({ score: points, time: Math.round(time_elapsed), date: new Date(Date.now()).toDateString(), lives: lives });
+      console.log("test");
+      goToScores();
+      //Game Ended
+      // $("#MyCanvas").hide();
+      // $("#startButton").show();
+      // $("#myInput").show()
     }
     if (GoodSpaceship.dead && new Date() - GoodSpaceship.time_shot >= 500) {
       GoodSpaceship.i = startPoint;
@@ -369,7 +371,7 @@ function Draw() {
     ctx.stroke();
   }
   function draw_text() {
-    ctx.font = "30px fantasy";
+    ctx.font = "20px Public Pixel";
     ctx.fillStyle = "white";
     ctx.fillText("can't cross", 0, c.height * 0.6);
   }
@@ -414,7 +416,7 @@ function Draw() {
   function draw_time() {
     ctx.beginPath();
     time_elapsed = Math.floor(time_elapsed * 10) / 10;
-    ctx.font = "40px Verdana";
+    ctx.font = "30px Public Pixel, sans-serif";
     ctx.fillStyle = "white";
     ctx.fillText(time_elapsed + "s", 0, 35);
   }
@@ -510,7 +512,7 @@ function Draw() {
       ctx.beginPath();
       var time_pass = (new Date() - snow.activated_time) / 1000;
       var timer = freeze_time - (Math.floor(time_pass * 10) / 10);
-      ctx.font = "30px";
+      ctx.font = "30px Public Pixel, sans-serif";
       ctx.fillStyle = "lightblue";
       ctx.fillText(Math.round(timer * 10) / 10 + "s", 0, 70);
     }
@@ -525,21 +527,28 @@ function Draw() {
   draw_time();
   Draw_freeze();
   ctx.beginPath();
-  ctx.font = "30px";
+  ctx.font = "30px Public Pixel";
   ctx.fillStyle = "red";
-  ctx.fillText("POINTS: " + points, c.width / 2 - 100, 35);
+  ctx.fillText("POINTS: " + points, c.width / 2 - 140, 35);
   if (lives == 1) {
-    ctx.drawImage(heartImg, 0, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
+    ctx.drawImage(heartImg, 0, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
+    ctx.globalAlpha = 0.4;
+    ctx.drawImage(heartImg, 3 * egg_size, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
+    ctx.drawImage(heartImg, 6 * egg_size, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
   }
   if (lives == 2) {
-    ctx.drawImage(heartImg, 0, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
-    ctx.drawImage(heartImg, 2 * egg_size, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
+    ctx.drawImage(heartImg, 0, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
+    ctx.drawImage(heartImg, 3 * egg_size, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
+    ctx.globalAlpha = 0.4;
+    ctx.drawImage(heartImg, 6 * egg_size, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
   }
   if (lives == 3) {
-    ctx.drawImage(heartImg, 0, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
-    ctx.drawImage(heartImg, 2 * egg_size, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
-    ctx.drawImage(heartImg, 4 * egg_size, c.height - 2 * egg_size, 2 * egg_size, 2 * egg_size);
+    ctx.drawImage(heartImg, 0, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
+    ctx.drawImage(heartImg, 3 * egg_size, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
+    ctx.drawImage(heartImg, 6 * egg_size, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
   }
+  ctx.globalAlpha = 1;
+
 
 
 }
@@ -567,3 +576,9 @@ function startGame() {
   }
 
 }
+
+window.addEventListener("keydown", function (e) {
+  if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
+    e.preventDefault();
+  }
+}, false);
