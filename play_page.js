@@ -285,6 +285,9 @@ function Update() {
       setTimeout(function () {
         backgroundSound.pause();
         window.clearInterval(interval);
+        UserScores.push({ score: points, time: time_elapsed, date: new Date(Date.now()).toDateString, lives: lives });
+        console.log("test");
+        goToScores();
         //Game Ended
         // $("#MyCanvas").hide();
         // $("#startButton").show();
