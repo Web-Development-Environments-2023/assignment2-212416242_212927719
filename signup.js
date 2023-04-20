@@ -13,7 +13,7 @@ function submitSignUp() {
     let lastName = document.getElementById('lastName').value;
     let email = document.getElementById('email').value;
     let date = document.getElementById('date').value;
-    if (password === confirm_password) {
+    if (signUpValidation(username, password, confirm_password, firstName, lastName, email)) {
         const newUser = { username: username, password: password, firstName: firstName, lastName: lastName, email: email, date: date };
         users[username] = newUser;
         console.log(users);
