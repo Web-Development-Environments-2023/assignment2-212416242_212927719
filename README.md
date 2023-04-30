@@ -1,6 +1,6 @@
 # Chicken Invaders
 ## by Omer Aflalo, Teva Erez and Ariel Pichadze
-## link tothe website: https://web-development-environments-2023.github.io/assignment2-212416242_212927719_324126671/
+### link tothe website: https://web-development-environments-2023.github.io/assignment2-212416242_212927719_324126671/
 ### The home screen:
 In the home screen you can sign up and create new account in order to play the game, or if you already created an account, you can login.
 After you either login or sign up, you will be able to start the game or log out.
