@@ -529,7 +529,8 @@ function Draw() {
   ctx.beginPath();
   ctx.font = "30px Public Pixel";
   ctx.fillStyle = "red";
-  ctx.fillText("POINTS: " + points, c.width / 2 - 140, 35);
+  ctx.textAlign="center";
+  ctx.fillText("POINTS: " + points, c.width, 35);
   if (lives == 1) {
     ctx.drawImage(heartImg, 0, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
     ctx.globalAlpha = 0.4;
