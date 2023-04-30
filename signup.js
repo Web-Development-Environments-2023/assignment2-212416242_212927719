@@ -39,12 +39,18 @@ function tryLogin() {
 
 }
 
+
+function clearLoginError(){
+    $("#errorLogin").empty();
+}
+
 function loginUser(username) {
     console.log("loggedin");
     loggedInUser = users[username];
     UserScores = [];
     // document.getElementById("helloText").value = "Hello " + loggedInUser.firstName + " " + loggedInUser.lastName;
     goToHomePage();
+    
     document.getElementById('signup').style.display = "none";
     document.getElementById('login').style.display = "none";
     document.getElementById('logout').style.display = "block";
