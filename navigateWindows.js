@@ -58,3 +58,19 @@ function hideAll() {
     document.getElementById("gamePage").style.display = "none";
     document.getElementById("scoresPage").style.display = "none";
 }
+
+
+window.addEventListener('click', function(e){   
+    if (document.getElementById('dialogDiv').contains(e.target)){
+      // Clicked in box
+    } else{
+        window.dialog.close();
+    }
+  });
+// $(document).mouseup(function(event) {
+//     var dialog = $("#dialogDiv");
+//     var target = $(event.target);
+//     if (!target.is(dialog) && !dialog.has(target).length) {
+//         dialog.hide();
+//     }
+// });

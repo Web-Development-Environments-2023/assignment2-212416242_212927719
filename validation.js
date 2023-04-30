@@ -1,11 +1,12 @@
 const errorlog = document.getElementById("errorSignup");
-function signUpValidation(username, password, confirm_password, firstName, lastName, email) {
+function signUpValidation(username, password, confirm_password, firstName, lastName, email, date) {
     if (!length_validation(firstName, "First Name")) return false;
     if (!length_validation(lastName, "Last Name")) return false;
     if (!length_validation(password, "Password", 8)) return false;
     if (!length_validation(confirm_password, "Confirm Password")) return false;
     if (!length_validation(username, "Username")) return false;
     if (!length_validation(email, "Email")) return false;
+    if (!length_validation(date, "Date")) return false;
     if (!allLetter(firstName,"First Name")) return false;
     if (!allLetter(lastName, "Last Name")) return false;
     if (!ValidateEmail(email)) return false;
@@ -23,7 +24,7 @@ function confirm_password_validation(password, confirm_password) {
     if (password === confirm_password) {
         return true;
     }
-    updateError("password should be same as confirm password");
+    updateError("password should be same as confirm password!");
     return false;
 }
 
@@ -31,7 +32,7 @@ function password_validation(password) {
     if (containsNumbers(password) && contains_letters(password)) {
         return true;
     }
-    updateError("password should contain numbers and letters");
+    updateError("password should contain numbers and letters!");
     return false;
 }
 
@@ -53,7 +54,7 @@ function length_validation(field, name, min = 0) {
             if (min > 0) {
                 updateError(name + " should not be empty / length be more than " + min);
             } else {
-                updateError(name + " should not be empty");
+                updateError(name + " should not be empty!");
             }
             return false;
         }
@@ -68,7 +69,7 @@ function allLetter(uname, str) {
         return true;
     }
     else {
-        updateError(str + ' must have English alphabet characters only');
+        updateError(str + ' must have English alphabet characters only!');
         uname.focus();
         return false;
     }
