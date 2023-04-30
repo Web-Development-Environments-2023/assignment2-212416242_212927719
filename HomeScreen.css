@@ -172,7 +172,7 @@ form {
 }
 
 
-.threeD-button-set input {
+.threeD-button-set input, select {
     outline: 0;
     border: 2px solid var(--theme);
     border-radius: 4px;
@@ -184,6 +184,9 @@ form {
     margin: 2%;
     font-family: 'Public Pixel', sans-serif;
 
+}
+.threeD-button-set select{
+    color: black;
 }
 
 
