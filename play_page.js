@@ -87,6 +87,7 @@ function addBSSshot() {
 }
 
 function Start() {
+  max_time = $("#gameDuration").val();
   $("#MyCanvas").attr("width", $(window).width());
   $("#MyCanvas").attr("height", $(window).height());
   bSSAlive = [];
@@ -132,7 +133,7 @@ function Start() {
     },
     false
   );
-  addEventListener("click", function(event) {
+  addEventListener("click", function (event) {
     var mouseX = event.clientX - c.getBoundingClientRect().left;
     var mouseY = event.clientY - c.getBoundingClientRect().top;
 
@@ -549,7 +550,7 @@ function Draw() {
       ctx.fillText(Math.round(timer * 10) / 10 + "s", 0, 70);
     }
   }
-  function Draw_button(){
+  function Draw_button() {
     ctx.beginPath();
     ctx.fillStyle = "blue";
     ctx.globalAlpha = 0.4;
@@ -558,7 +559,7 @@ function Draw() {
     ctx.font = "20px Public Pixel";
     ctx.fillText("restart", buttonX + 10, buttonY + 30);
     ctx.globalAlpha = 1;
-    }
+  }
   c.width = c.width;
   draw_line();
   draw_text();
@@ -572,7 +573,7 @@ function Draw() {
   ctx.font = "30px Public Pixel";
   ctx.fillStyle = "red";
   ctx.textAlign = "center";
-  ctx.fillText("POINTS: " + points, c.width/2, 35);
+  ctx.fillText("POINTS: " + points, c.width / 2, 35);
   if (lives == 1) {
 
     ctx.drawImage(heartImg, 0, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
@@ -614,9 +615,11 @@ input.addEventListener(
 );
 
 function startGame() {
-  if (shoot != null) {
-    goToGamePage();
-    Start()
+  if ($('#gameDuration').val() >= 120) {
+    if (shoot != null) {
+      goToGamePage();
+      Start()
+    }
   }
 
 }
