@@ -3,9 +3,13 @@ function updateScoreTable() {
     var table = document.getElementById('scoresData');
     let sortedScore=UserScores.sort(function(a, b)
     {
-     return a.score>b.score;
+     return a.score>b.score? 1 : -1;
     });
-    let i=1;
+    console.log(UserScores);
+    console.log("-----------------------");
+    console.log(sortedScore);
+
+    let i=sortedScore.length;
     for (const dataRow of sortedScore) {
         var row = table.insertRow(0);
         var Rank = row.insertCell(0);
@@ -18,6 +22,6 @@ function updateScoreTable() {
         time.innerHTML = dataRow.time + "s";
         score.innerHTML = dataRow.score;
         lives.innerHTML = dataRow.lives;
-        i++;
+        i--;
     }
 }
