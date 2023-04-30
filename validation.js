@@ -1,11 +1,11 @@
 const errorlog = document.getElementById("errorSignup");
 function signUpValidation(username, password, confirm_password, firstName, lastName, email) {
-    if (!length_validation(firstName, "firstName")) return false;
-    if (!length_validation(lastName, "lastName")) return false;
-    if (!length_validation(password, "password", 8)) return false;
-    if (!length_validation(confirm_password, "confirm_password")) return false;
-    if (!length_validation(username, "username")) return false;
-    if (!length_validation(email, "email")) return false;
+    if (!length_validation(firstName, "First Name")) return false;
+    if (!length_validation(lastName, "Last Name")) return false;
+    if (!length_validation(password, "Password", 8)) return false;
+    if (!length_validation(confirm_password, "Confirm Password")) return false;
+    if (!length_validation(username, "Username")) return false;
+    if (!length_validation(email, "Email")) return false;
     if (!allLetter(firstName)) return false;
     if (!allLetter(lastName)) return false;
     if (!ValidateEmail(uemail)) return false;
