@@ -629,7 +629,8 @@ function startGame() {
     if (shoot != null) {
       goToGamePage();
       window.clearInterval(interval);
-      Start()
+      Start();
+      gameEnded=false;
     }
   }
 
