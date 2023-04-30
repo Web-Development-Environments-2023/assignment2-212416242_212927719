@@ -10,3 +10,8 @@ Also, if you don't familiar with the game, you can press the About button to see
 ![image](https://user-images.githubusercontent.com/55681373/235375795-9f8229e7-499b-4624-b12c-53efb356528e.png)
 
 ### The game:
+After you press the button 'Start Game', you will be directed to a page where you can choose with what key you want to shoot, how long you want the game to last and the size of the spaceship.
+
+![image](https://user-images.githubusercontent.com/55681373/235376085-cacffcf4-6fde-42fa-8149-20ccdd92f905.png)
+
+
