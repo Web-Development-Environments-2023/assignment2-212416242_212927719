@@ -15,25 +15,16 @@ function signUpValidation(username, password, confirm_password, firstName, lastN
                                             if (confirm_password_validation(password, confirm_password)) {
                                                 return true;
                                             }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return false;
-
+function updateError(msg) {
+    $("#errorSignup").empty();
+    $("#errorSignup").append(msg);
 }
 
 function confirm_password_validation(password, confirm_password) {
     if (password === confirm_password) {
         return true;
     }
-    alert("password should be same as confirm password");
+    updateError("password should be same as confirm password");
     return false;
 }
 
@@ -41,7 +32,7 @@ function password_validation(password) {
     if (containsNumbers(password) && contains_letters(password)) {
         return true;
     }
-    alert("password should contain numbers and letters");
+    updateError("password should contain numbers and letters");
     return false;
 }
 
@@ -52,14 +43,14 @@ function contains_letters(str) {
 }
 
 
-function length_validation(field, my, name) {
+function length_validation(field, name, min = 0) {
     var uid_len = field.length;
     if (uid_len == 0) {
-        if (my != 0 || uid_len >= my) {
-            if (my > 0) {
-                alert(name + " should not be empty / length be more than " + my);
+        if (min != 0 || uid_len >= min) {
+            if (min > 0) {
+                updateError(name + " should not be empty / length be more than " + min);
             } else {
-                alert(name + " should not be empty");
+                updateError(name + " should not be empty");
             }
             return false;
         }
@@ -74,7 +65,7 @@ function allLetter(uname) {
         return true;
     }
     else {
-        alert('Username must have alphabet characters only');
+        updateError('Username must have alphabet characters only');
         uname.focus();
         return false;
     }
@@ -86,7 +77,7 @@ function ValidateEmail(uemail) {
         return true;
     }
     else {
-        alert("You have entered an invalid email address!");
+        updateError("You have entered an invalid email address!");
         uemail.focus();
         return false;
     }

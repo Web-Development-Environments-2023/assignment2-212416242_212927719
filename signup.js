@@ -39,6 +39,10 @@ function tryLogin() {
 
 }
 
+function clearSignUpError(){
+    $("#errorSignup").empty();
+}
+
 
 function clearLoginError(){
     $("#errorLogin").empty();

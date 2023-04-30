@@ -321,14 +321,14 @@ function Update() {
       GoodSpaceship.time_shot > 0 &&
       new Date() - GoodSpaceship.time_shot <= 1000;
     if (!gameEnded) {
-    Draw();
-    if (!GoodSpaceship.dead) {
-      updategbSSshots();
+      Draw();
+      if (!GoodSpaceship.dead) {
+        updategbSSshots();
 
-      updategSSshots();
+        updategSSshots();
 
-      if (snow.falling) {
-        updateSnow();
+        if (snow.falling) {
+          updateSnow();
         }
       }
     }
