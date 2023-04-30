@@ -6,9 +6,9 @@ function signUpValidation(username, password, confirm_password, firstName, lastN
     if (!length_validation(confirm_password, "Confirm Password")) return false;
     if (!length_validation(username, "Username")) return false;
     if (!length_validation(email, "Email")) return false;
-    if (!allLetter(firstName)) return false;
-    if (!allLetter(lastName)) return false;
-    if (!ValidateEmail(uemail)) return false;
+    if (!allLetter(firstName,"First Name")) return false;
+    if (!allLetter(lastName, "Last Name")) return false;
+    if (!ValidateEmail(email)) return false;
     if (!password_validation(password)) return false;
     if (!confirm_password_validation(password, confirm_password)) return false;
     return true;
@@ -35,6 +35,10 @@ function password_validation(password) {
     return false;
 }
 
+function containsNumbers(str) {
+    return /\d/.test(str);
+  }
+
 function contains_letters(str) {
     var regExp = /[a-zA-Z]/g;
     var testString = "john";
@@ -58,13 +62,13 @@ function length_validation(field, name, min = 0) {
 }
 
 
-function allLetter(uname) {
+function allLetter(uname, str) {
     var letters = /^[A-Za-z]+$/;
-    if (uname.value.match(letters)) {
+    if (letters.test(uname)) {
         return true;
     }
     else {
-        updateError('Username must have alphabet characters only');
+        updateError(str + ' must have English alphabet characters only');
         uname.focus();
         return false;
     }
@@ -72,7 +76,7 @@ function allLetter(uname) {
 
 function ValidateEmail(uemail) {
     var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (uemail.value.match(mailformat)) {
+    if (mailformat.test(uemail)) {
         return true;
     }
     else {

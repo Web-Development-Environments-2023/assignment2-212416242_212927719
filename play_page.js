@@ -1,62 +1,63 @@
-var GoodSpaceship = new Object();
-var c = document.getElementById("MyCanvas");
-var ctx = c.getContext("2d");
-var intervalGap = 20;
-var interval;
-var GoodSSImg = new Image();
-GoodSSImg.src = "goodSpaceShip1.png";
-var BadSS1Img = new Image();
-BadSS1Img.src = "chicken.png";
-var BadSS2Img = new Image();
-BadSS2Img.src = "redChicken.webp";
-var BadSS3Img = new Image();
-BadSS3Img.src = "armyChicken.png";
-var BadSS4Img = new Image();
-BadSS4Img.src = "superManChicken.webp";
-var bomb_img = new Image();
-bomb_img.src = "bomb.png";
-var egg_img = new Image();
-egg_img.src = "egg.png";
-var snow_img = new Image();
-snow_img.src = "snowFlake.png";
-var shot_img = new Image();
-shot_img.src = "shot.png";
-var heartImg = new Image();
-heartImg.src = "heart.jpg";
-var img_height = c.height / 4;
-var img_width = c.width / 4;
-var shoot = null;
-var keyDown;
-var badspaceShips;
-var bSSAlive = [];
-var spaceshipsMovement = "right";
-var start_time;
-var time_elapsed;
-var goodSScanShoot = true;
-var bSScanShoot = false;
-var lastShotTime = 0;
-var gSSshotsTimeGap = 1000;
-var gSSshots = [];
-var bSSshots = [];
-var ballSize = 10;
-var badSSspeed = 8;
-var egg_size = img_width / 4;
-var shot_jump = 8;
-var startPoint;
-var badSSJump = img_width / badSSspeed;
-var to_load;
-var snow;
-var once = false;
-var points;
-var freeze_time = 3
-var enemyDestroySound = new Audio('sound_chicken-sound.mp3');
-var shipDestroySound = new Audio('sound_destroy.mp3');
-var shotSound = new Audio('sound_sfx-laser1.ogg');
-var freezeSound = new Audio('freeze.mp3');
-var backgroundSound = new Audio('background.mp3');
-var lives;
-var max_time = 50;
-var gameEnded = false;
+  var GoodSpaceship = new Object();
+  var c = document.getElementById("MyCanvas");
+  var ctx = c.getContext("2d");
+  var intervalGap = 20;
+  var interval;
+  var GoodSSImg = new Image();
+  GoodSSImg.src = "goodSpaceShip1.png";
+  var BadSS1Img = new Image();
+  BadSS1Img.src = "chicken.png";
+  var BadSS2Img = new Image();
+  BadSS2Img.src = "redChicken.webp";
+  var BadSS3Img = new Image();
+  BadSS3Img.src = "armyChicken.png";
+  var BadSS4Img = new Image();
+  BadSS4Img.src = "superManChicken.webp";
+  var bomb_img = new Image();
+  bomb_img.src = "bomb.png";
+  var egg_img = new Image();
+  egg_img.src = "egg.png";
+  var snow_img = new Image();
+  snow_img.src = "snowFlake.png";
+  var shot_img = new Image();
+  shot_img.src = "shot.png";
+  var heartImg = new Image();
+  heartImg.src = "heart.jpg";
+  var img_height = c.height / 4;
+  var img_width = c.width / 4;
+  var shoot = null;
+  var keyDown;
+  var badspaceShips;
+  var bSSAlive = [];
+  var spaceshipsMovement = "right";
+  var start_time;
+  var time_elapsed;
+  var goodSScanShoot = true;
+  var bSScanShoot = false;
+  var lastShotTime = 0;
+  var gSSshotsTimeGap = 1000;
+  var gSSshots = [];
+  var bSSshots = [];
+  var ballSize = 10;
+  var badSSspeed = 8;
+  var egg_size = img_width / 4;
+  var shot_jump = 8;
+  var startPoint;
+  var badSSJump = img_width / badSSspeed;
+  var to_load;
+  var snow;
+  var once = false;
+  var points;
+  var freeze_time = 3
+  var enemyDestroySound = new Audio('sound_chicken-sound.mp3');
+  var shipDestroySound = new Audio('sound_destroy.mp3');
+  var shotSound = new Audio('sound_sfx-laser1.ogg');
+  var freezeSound = new Audio('freeze.mp3');
+  var backgroundSound = new Audio('background.mp3');
+  var lives;
+  var max_time = 50;
+  var gameEnded = false;
+
 
 function initiateBadSSsYLocation(firstSpacehipI) {
   badspaceShips[0][0].i = firstSpacehipI;
@@ -249,6 +250,7 @@ function Update() {
   if (keyDown == "Escape") {
     backgroundSound.pause();
     window.clearInterval(interval);
+    goToLoggedInPage();
     //Game Ended
     // $("#MyCanvas").hide();
     // $("#startButton").show();
@@ -290,6 +292,7 @@ function Update() {
       backgroundSound.pause();
       window.clearInterval(interval);
       UserScores.push({ score: points, time: Math.round(time_elapsed), date: new Date(Date.now()).toLocaleString(), lives: lives });
+      //Game Ended
 
       ctx.beginPath();
       ctx.strokeStyle = "White";
@@ -298,19 +301,18 @@ function Update() {
       if (lives == 0) {
         ctx.fillText("You Lost", c.width / 2, c.height / 2);
       }
-      else if(points<100){
+      else if (points < 100) {
         ctx.fillText("you can do better", c.width / 2, c.height / 2);
       }
-      else if(bSSAlive.length==0){
+      else if (bSSAlive.length == 0) {
         ctx.fillText("Champion!", c.width / 2, c.height / 2);
-      }else{
+      } else {
         ctx.fillText("Winner!", c.width / 2, c.height / 2);
       }
       gameEnded = true;
       setTimeout(goToScores, 5000);
 
 
-      //Game Ended
 
     }
     if (GoodSpaceship.dead && new Date() - GoodSpaceship.time_shot >= 500) {
@@ -547,8 +549,8 @@ function Draw() {
   ctx.beginPath();
   ctx.font = "30px Public Pixel";
   ctx.fillStyle = "red";
-  ctx.textAlign="center";
-  ctx.fillText("POINTS: " + points, c.width, 35);
+  ctx.textAlign = "center";
+  ctx.fillText("POINTS: " + points, c.width/2, 35);
   if (lives == 1) {
     ctx.drawImage(heartImg, 0, c.height - 3 * egg_size, 3 * egg_size, 3 * egg_size);
     ctx.globalAlpha = 0.4;

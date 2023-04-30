@@ -1,6 +1,6 @@
 const users = {};
 var loggedInUser;
-var UserScores = [{ score: "10", time: "15", date: "1/1/1", lives: "2" }];
+var UserScores = [];
 
 users["p"] = { username: "p", password: "testuser", firstName: "Admin", lastName: "Admin", email: "admin@gmail.com", date: "1/1/1111" }
 
@@ -52,7 +52,6 @@ function loginUser(username) {
     console.log("loggedin");
     loggedInUser = users[username];
     UserScores = [];
-    // document.getElementById("helloText").value = "Hello " + loggedInUser.firstName + " " + loggedInUser.lastName;
     goToHomePage();
     
     document.getElementById('signup').style.display = "none";
