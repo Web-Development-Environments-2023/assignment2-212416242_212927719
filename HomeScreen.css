@@ -1,0 +1,383 @@
+@import url(https://fonts.googleapis.com/css2?family=Audiowide&display=swap);
+
+body {
+    min-block-size: 100%;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    place-content: center;
+    overflow: hidden;
+}
+
+.threeD-button-set {
+    --distance: 1px;
+    --theme: hsl(180 100% 50%);
+    --theme-bg: hsl(180 100% 50% / 25%);
+    --theme-bg-hover: hsl(180 100% 50% / 40%);
+    --theme-text: white;
+    --theme-shadow: hsl(180 100% 10% / 25%);
+    --_max-rotateY: 10deg;
+    --_max-rotateX: 30deg;
+    --_btn-bg: var(--theme-bg);
+    --_btn-bg-hover: var(--theme-bg-hover);
+    --_btn-text: var(--theme-text);
+    --_btn-text-shadow: var(--theme-shadow);
+    --_bounce-ease: cubic-bezier(.5, 1.75, .75, 1.25);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5vh;
+    transform-style: preserve-3d;
+    transform: rotateY(clamp(calc(var(--_max-rotateY) * -1), var(--y), var(--_max-rotateY))) rotateX(clamp(calc(var(--_max-rotateX) * -1), var(--x), var(--_max-rotateX)))
+}
+
+.threeD-button-set h1,
+h5,
+.pixeledH1 {
+    color: aliceblue;
+    font-family: 'Public Pixel', sans-serif;
+    stroke: #362c2f;
+}
+
+.threeD-button-set h1,
+.pixeledH1 {
+    font-size: 3vw;
+}
+
+.threeD-button-set h5 {
+    font-size: 1.2vw;
+}
+
+@media (prefers-reduced-motion:no-preference) {
+    .threeD-button-set {
+        will-change: transform;
+        transition: transform .1s ease;
+        -webkit-animation: rotate-y 5s ease-in-out infinite;
+        animation: rotate-y 5s ease-in-out infinite
+    }
+}
+
+.threeD-button-set input[type="text"],
+input[type="password"] {
+    padding-block: 5% !important;
+}
+
+
+.threeD-button-set li {
+    display: inline-flex;
+    position: relative;
+    transform-style: preserve-3d;
+    list-style-type: none;
+}
+
+.threeD-button-set button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: 0;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    background-color: var(--_btn-bg);
+    color: var(--_btn-text);
+    text-shadow: 0 1px 1px var(--_btn-text-shadow);
+    font-size: min(5vmin, 3rem);
+    font-family: Audiowide;
+    padding-block: .75ch;
+    padding-inline: 2ch;
+    border-radius: 5px 20px;
+    transform: translateZ(var(--distance));
+    transform-style: preserve-3d
+}
+
+.threeD-button-set button:is(:hover, :focus-visible):not(:active) {
+    --distance: 15px;
+    background-color: var(--_btn-bg-hover)
+}
+
+@media (prefers-reduced-motion:no-preference) {
+    .threeD-button-set button:is(:hover, :focus-visible):not(:active) {
+        --distance: 3vmax;
+        transition-timing-function: var(--_bounce-ease);
+        transition-duration: .4s
+    }
+
+    .threeD-button-set button:is(:hover, :focus-visible):not(:active)::after {
+        transition-duration: .5s
+    }
+
+    .threeD-button-set button:is(:hover, :focus-visible):not(:active)::before {
+        transition-duration: .3s
+    }
+}
+
+.threeD-button-set button::after,
+.threeD-button-set button::before {
+    content: '';
+    opacity: .8;
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--theme);
+    border-radius: 5px 20px;
+    transform: translateZ(calc(var(--distance)/ 3))
+}
+
+@media (prefers-reduced-motion:no-preference) {
+
+    .threeD-button-set button::after,
+    .threeD-button-set button::before {
+        transition: transform .1s ease-out
+    }
+}
+
+.threeD-button-set button::before {
+    border-width: 3px;
+    transform: translateZ(calc(var(--distance)/ 3 * -1))
+}
+
+
+@media (prefers-reduced-motion:no-preference) {
+    .threeD-button-set button {
+        will-change: transform;
+        transition: transform .2s ease, background-color .5s ease
+    }
+}
+
+@-webkit-keyframes rotate-y {
+    50% {
+        transform: rotateY(15deg) rotateX(-6deg)
+    }
+}
+
+@keyframes rotate-y {
+    50% {
+        transform: rotateY(15deg) rotateX(-6deg)
+    }
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0
+}
+
+html {
+    block-size: 100%;
+    background: conic-gradient(at -10% 50%, #362c2f, #0ff)
+}
+
+form {
+    text-align: center;
+}
+
+
+.threeD-button-set input {
+    outline: 0;
+    border: 2px solid var(--theme);
+    border-radius: 4px;
+    background-color: var(--_btn-bg);
+    color: var(--theme-text);
+    font-size: 0.8vw;
+    border-radius: 5px 20px;
+    padding: 2%;
+    margin: 2%;
+    font-family: 'Public Pixel', sans-serif;
+
+}
+
+
+
+.stars section {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    /* background-position-x: center; */
+    background-size: cover;
+    animation: animateBg 50s linear infinite;
+}
+
+@keyframes animateBg {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.stars span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1),
+        0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 20px rgba(255, 255, 255, 1);
+    animation: animate 3s linear infinite;
+}
+
+.stars span::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    height: 1px;
+    background: linear-gradient(90deg, #fff, transparent);
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(315deg) translateX(0);
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: rotate(315deg) translateX(-1500px);
+        opacity: 0;
+    }
+}
+
+.stars span:nth-child(1) {
+    top: 0;
+    right: 0;
+    left: initial;
+    animation-delay: 0;
+    animation-duration: 1s;
+}
+
+.stars span:nth-child(2) {
+    top: 0;
+    right: 80px;
+    left: initial;
+    animation-delay: 0.2s;
+    animation-duration: 3s;
+}
+
+.stars span:nth-child(3) {
+    top: 80px;
+    right: 0px;
+    left: initial;
+    animation-delay: 0.4s;
+    animation-duration: 2s;
+}
+
+.stars span:nth-child(4) {
+    top: 0;
+    right: 180px;
+    left: initial;
+    animation-delay: 0.6s;
+    animation-duration: 1.5s;
+}
+
+.stars span:nth-child(5) {
+    top: 0;
+    right: 400px;
+    left: initial;
+    animation-delay: 0.8s;
+    animation-duration: 2.5s;
+}
+
+.stars span:nth-child(6) {
+    top: 0;
+    right: 600px;
+    left: initial;
+    animation-delay: 1s;
+    animation-duration: 3s;
+}
+
+.stars span:nth-child(7) {
+    top: 300px;
+    right: 0px;
+    left: initial;
+    animation-delay: 1s;
+    animation-duration: 1.75s;
+}
+
+.stars span:nth-child(8) {
+    top: 0px;
+    right: 700px;
+    left: initial;
+    animation-delay: 1.4s;
+    animation-duration: 1.25s;
+}
+
+.stars span:nth-child(9) {
+    top: 0px;
+    right: 1000px;
+    left: initial;
+    animation-delay: 0.75s;
+    animation-duration: 2.25s;
+}
+
+.stars span:nth-child(10) {
+    top: 0px;
+    right: 1200px;
+    left: initial;
+    animation-delay: 2.75s;
+    animation-duration: 2.25s;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+.sign-up td {
+    width: 40%;
+    height: 20%;
+}
+
+
+
+
+
+/* header {
+	position: fixed;
+	width: 100%;
+	height: 25vh;
+} */
+
+/* Create angled background with 'before' pseudo-element */
+/* header::before {
+	content: "";
+	display: block;
+	position: absolute;
+	left: 0;
+	bottom: 6em;
+	width: 100%;
+	height: calc(50vh + 10em);
+	z-index: -1;
+	transform: skewY(-3.5deg); */
+	/* background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+		url(https://images.unsplash.com/photo-1495464101292-552d0b52fe41?auto=format&fit=crop&w=1350&q=80)
+			no-repeat center,
+		linear-gradient(#4e4376, #2b5876); */
+	/* background-size: cover;
+	border-bottom: 0.2em solid #fff;
+}
+
+header h1 {
+	font-size: 8vh;
+	letter-spacing: 0.01em;
+	text-shadow: 0.022em 0.022em 0.022em #111;
+	color: #fff;
+}
+ */
+
+
+
