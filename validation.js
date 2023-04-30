@@ -1,20 +1,19 @@
 const errorlog = document.getElementById("errorSignup");
-function signUpValidation(username, password, confirm_password, firstName, lastName, email,) {
-    if (length_validation(firstName, 0, Object.keys({ firstName })[0])) {
-        if (length_validation(lastName, 0, Object.keys({ lastName })[0])) {
-            if (length_validation(password, 8, Object.keys({ password })[0])) {
-                if (length_validation(confirm_password, 0, Object.keys({ confirm_password })[0])) {
-                    if (length_validation(username, 0, Object.keys({ username })[0])) {
-                        if (length_validation(email, 0, Object.keys({ email })[0])) {
+function signUpValidation(username, password, confirm_password, firstName, lastName, email) {
+    if (!length_validation(firstName, "firstName")) return false;
+    if (!length_validation(lastName, "lastName")) return false;
+    if (!length_validation(password, "password", 8)) return false;
+    if (!length_validation(confirm_password, "confirm_password")) return false;
+    if (!length_validation(username, "username")) return false;
+    if (!length_validation(email, "email")) return false;
+    if (!allLetter(firstName)) return false;
+    if (!allLetter(lastName)) return false;
+    if (!ValidateEmail(uemail)) return false;
+    if (!password_validation(password)) return false;
+    if (!confirm_password_validation(password, confirm_password)) return false;
+    return true;
 
-                            if (allLetter(firstName)) {
-                                if (allLetter(lastName)) {
-
-                                    if (ValidateEmail(uemail)) {
-                                        if (password_validation(password)) {
-                                            if (confirm_password_validation(password, confirm_password)) {
-                                                return true;
-                                            }
+}
 function updateError(msg) {
     $("#errorSignup").empty();
     $("#errorSignup").append(msg);
