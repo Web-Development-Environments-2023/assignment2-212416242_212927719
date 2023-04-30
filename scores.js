@@ -1,6 +1,7 @@
 function updateScoreTable() {
     $("#scoresData td").remove();
     var table = document.getElementById('scoresData');
+    
     for (const dataRow of UserScores) {
         var row = table.insertRow(0);
         var Date = row.insertCell(0);
