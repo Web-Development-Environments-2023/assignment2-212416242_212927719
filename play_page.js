@@ -137,16 +137,16 @@ function Start() {
   addEventListener(
     "click",
     function (e) {
-    var mouseX = e.clientX - c.getBoundingClientRect().left;
-    var mouseY = e.clientY - c.getBoundingClientRect().top;
+      var mouseX = e.clientX - c.getBoundingClientRect().left;
+      var mouseY = e.clientY - c.getBoundingClientRect().top;
 
-    if (mouseX > buttonX && mouseX < buttonX + buttonWidth && mouseY > buttonY && mouseY < buttonY + buttonHeight) {
-      backgroundSound.pause();
-      window.clearInterval(interval);
-      startGame();
-      return;
-    }
-  });
+      if (mouseX > buttonX && mouseX < buttonX + buttonWidth && mouseY > buttonY && mouseY < buttonY + buttonHeight) {
+        backgroundSound.pause();
+        window.clearInterval(interval);
+        startGame();
+        return;
+      }
+    });
 
   interval = setInterval(Update, intervalGap);
 }
@@ -268,7 +268,7 @@ function Update() {
   }
   if (keyDown == "Escape") {
     backgroundSound.pause();
-    
+
     window.clearInterval(interval);
     goToLoggedInPage();
     //Game Ended
@@ -335,27 +335,27 @@ function Update() {
 
 
     }
-    else{
-    if (GoodSpaceship.dead && new Date() - GoodSpaceship.time_shot >= 500) {
-      GoodSpaceship.i = startPoint;
-      GoodSpaceship.j = c.height - img_height;
-    }
-    GoodSpaceship.dead =
-      GoodSpaceship.time_shot > 0 &&
-      new Date() - GoodSpaceship.time_shot <= 1000;
-    if (!gameEnded) {
-      Draw();
-      if (!GoodSpaceship.dead) {
-        updategbSSshots();
+    else {
+      if (GoodSpaceship.dead && new Date() - GoodSpaceship.time_shot >= 500) {
+        GoodSpaceship.i = startPoint;
+        GoodSpaceship.j = c.height - img_height;
+      }
+      GoodSpaceship.dead =
+        GoodSpaceship.time_shot > 0 &&
+        new Date() - GoodSpaceship.time_shot <= 1000;
+      if (!gameEnded) {
+        Draw();
+        if (!GoodSpaceship.dead) {
+          updategbSSshots();
 
-        updategSSshots();
+          updategSSshots();
 
-        if (snow.falling) {
-          updateSnow();
+          if (snow.falling) {
+            updateSnow();
+          }
         }
       }
     }
-  }
   }
 
   if (!GoodSpaceship.dead && !snow.activated) {
@@ -460,7 +460,7 @@ function Draw() {
     time_elapsed = Math.floor(time_elapsed * 10) / 10;
     ctx.font = "30px Public Pixel, sans-serif";
     ctx.fillStyle = "white";
-    ctx.fillText(max_time-time_elapsed + "s", 0, 35);
+    ctx.fillText(max_time - time_elapsed + "s", 0, 35);
   }
   function draw_gSSshots() {
     function draw_bullet(i, j, loading) {
@@ -568,7 +568,7 @@ function Draw() {
     ctx.fillStyle = "white";
     ctx.font = "20px Public Pixel";
     ctx.fillText("new game", buttonX + 10, buttonY + 25);
-    }
+  }
   c.width = c.width;
   Draw_button();
   draw_line();
@@ -625,13 +625,15 @@ input.addEventListener(
 );
 
 function startGame() {
-  if ($('#gameDuration').val() >= 120) {
-    if (shoot != null) {
-      goToGamePage();
-      window.clearInterval(interval);
-      Start();
-      gameEnded=false;
-    }
+  if ($('#gameDuration').val() >= 120 && shoot != null) {
+    goToGamePage();
+    window.clearInterval(interval);
+    gameEnded = false;
+    errorStartGame
+    Start();
+  } else {
+    $("#errorStartGame").empty();
+    $("#errorStartGame").append("Duration must be more than 120s");
   }
 
 }

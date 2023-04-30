@@ -16,6 +16,7 @@ function goToHomePage() {
 function goToLoggedInPage() {
     hideAll();
     document.getElementById("loggedInPage").style.display = "block";
+    $("#errorStartGame").empty();
 }
 
 function goToGamePage() {
