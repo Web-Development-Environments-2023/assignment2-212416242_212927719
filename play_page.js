@@ -56,12 +56,12 @@ var shotSound = new Audio('sound_sfx-laser1.ogg');
 var freezeSound = new Audio('freeze.mp3');
 var backgroundSound = new Audio('background.mp3');
 var lives;
-var max_time = 50;
+var max_time = 200;
 var gameEnded = false;
-var buttonWidth = 170;
-var buttonHeight = 50;
-var buttonX = c.width - buttonWidth - 10;
-var buttonY = c.height - buttonHeight - 10;
+var buttonWidth = 190;
+var buttonHeight = 40;
+var buttonX = 200;
+var buttonY = 5;
 
 function initiateBadSSsYLocation(firstSpacehipI) {
   badspaceShips[0][0].i = firstSpacehipI;
@@ -108,6 +108,7 @@ function Start() {
     }
     lives = 3
     points = 0;
+    time_elapsed = 0;
     initiateObjects();
     initiateBadSSsYLocation(0);
   }
@@ -137,7 +138,10 @@ function Start() {
     var mouseY = event.clientY - c.getBoundingClientRect().top;
 
     if (mouseX > buttonX && mouseX < buttonX + buttonWidth && mouseY > buttonY && mouseY < buttonY + buttonHeight) {
-      Start();
+      backgroundSound.pause();
+    
+      window.clearInterval(interval);
+      startGame();
     }
   });
 
@@ -261,6 +265,7 @@ function Update() {
   }
   if (keyDown == "Escape") {
     backgroundSound.pause();
+    
     window.clearInterval(interval);
     goToLoggedInPage();
     //Game Ended
@@ -327,6 +332,7 @@ function Update() {
 
 
     }
+    else{
     if (GoodSpaceship.dead && new Date() - GoodSpaceship.time_shot >= 500) {
       GoodSpaceship.i = startPoint;
       GoodSpaceship.j = c.height - img_height;
@@ -346,6 +352,7 @@ function Update() {
         }
       }
     }
+  }
   }
 
   if (!GoodSpaceship.dead && !snow.activated) {
@@ -450,7 +457,7 @@ function Draw() {
     time_elapsed = Math.floor(time_elapsed * 10) / 10;
     ctx.font = "30px Public Pixel, sans-serif";
     ctx.fillStyle = "white";
-    ctx.fillText(time_elapsed + "s", 0, 35);
+    ctx.fillText(max_time-time_elapsed + "s", 0, 35);
   }
   function draw_gSSshots() {
     function draw_bullet(i, j, loading) {
@@ -554,12 +561,13 @@ function Draw() {
     ctx.fillStyle = "blue";
     ctx.globalAlpha = 0.4;
     ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+    ctx.globalAlpha = 1;
     ctx.fillStyle = "white";
     ctx.font = "20px Public Pixel";
-    ctx.fillText("restart", buttonX + 10, buttonY + 30);
-    ctx.globalAlpha = 1;
+    ctx.fillText("new game", buttonX + 10, buttonY + 25);
     }
   c.width = c.width;
+  Draw_button();
   draw_line();
   draw_text();
   Draw_gSS();
@@ -568,7 +576,7 @@ function Draw() {
   draw_badSpaceships();
   draw_time();
   Draw_freeze();
-  Draw_button();
+  ctx.beginPath();
   ctx.font = "30px Public Pixel";
   ctx.fillStyle = "red";
   ctx.textAlign = "center";
