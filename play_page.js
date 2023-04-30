@@ -56,6 +56,7 @@ var freezeSound = new Audio('freeze.mp3');
 var backgroundSound = new Audio('background.mp3');
 var lives;
 var max_time = 50;
+var gameEnded = false;
 
 function initiateBadSSsYLocation(firstSpacehipI) {
   badspaceShips[0][0].i = firstSpacehipI;
@@ -288,13 +289,29 @@ function Update() {
 
       backgroundSound.pause();
       window.clearInterval(interval);
-      UserScores.push({ score: points, time: Math.round(time_elapsed), date: new Date(Date.now()).toDateString(), lives: lives });
-      console.log("test");
-      goToScores();
+      UserScores.push({ score: points, time: Math.round(time_elapsed), date: new Date(Date.now()).toLocaleString(), lives: lives });
+
+      ctx.beginPath();
+      ctx.strokeStyle = "White";
+      ctx.font = "60px Public Pixel";
+      ctx.textAlign = "center";
+      if (lives == 0) {
+        ctx.fillText("You Lost", c.width / 2, c.height / 2);
+      }
+      else if(points<100){
+        ctx.fillText("you can do better", c.width / 2, c.height / 2);
+      }
+      else if(bSSAlive.length==0){
+        ctx.fillText("Champion!", c.width / 2, c.height / 2);
+      }else{
+        ctx.fillText("Winner!", c.width / 2, c.height / 2);
+      }
+      gameEnded = true;
+      setTimeout(goToScores, 5000);
+
+
       //Game Ended
-      // $("#MyCanvas").hide();
-      // $("#startButton").show();
-      // $("#myInput").show()
+
     }
     if (GoodSpaceship.dead && new Date() - GoodSpaceship.time_shot >= 500) {
       GoodSpaceship.i = startPoint;
@@ -303,7 +320,7 @@ function Update() {
     GoodSpaceship.dead =
       GoodSpaceship.time_shot > 0 &&
       new Date() - GoodSpaceship.time_shot <= 1000;
-
+    if (!gameEnded) {
     Draw();
     if (!GoodSpaceship.dead) {
       updategbSSshots();
@@ -312,6 +329,7 @@ function Update() {
 
       if (snow.falling) {
         updateSnow();
+        }
       }
     }
   }
