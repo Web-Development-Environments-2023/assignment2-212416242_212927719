@@ -1,5 +1,6 @@
 # Chicken Invaders
 ## by Omer Aflalo, Teva Erez and Ariel Pichadze
+## link tothe website: https://web-development-environments-2023.github.io/assignment2-212416242_212927719_324126671/
 ### The home screen:
 In the home screen you can sign up and create new account in order to play the game, or if you already created an account, you can login.
 After you either login or sign up, you will be able to start the game or log out.
@@ -23,6 +24,3 @@ All the other rules and features to the game are specified in the 'About'.
 After you finish the game (either by time out or win by eliminating all the chickens), you will be directed to the score board, there can see all your scores.
 
 ![image](https://user-images.githubusercontent.com/55681373/235377245-f1e395aa-b429-4834-aceb-9a5ee403e893.png)
-
-
-link to git.io: https://web-development-environments-2023.github.io/assignment2-212416242_212927719_324126671/
