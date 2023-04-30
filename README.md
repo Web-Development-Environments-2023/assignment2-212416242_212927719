@@ -23,4 +23,4 @@ All the other rules and features to the game are specified in the 'About'.
 
 After you finish the game (either by time out or win by eliminating all the chickens), you will be directed to the score board, there can see all your scores.
 
-![image](https://user-images.githubusercontent.com/55681373/235377245-f1e395aa-b429-4834-aceb-9a5ee403e893.png)
+![image](https://user-images.githubusercontent.com/55681373/235378205-8025082b-b4a5-45c9-95dc-2834f9c28a21.png)
