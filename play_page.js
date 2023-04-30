@@ -87,6 +87,7 @@ function addBSSshot() {
 }
 
 function Start() {
+  window.onload= function() {
   max_time = $("#gameDuration").val();
   $("#MyCanvas").attr("width", $(window).width());
   $("#MyCanvas").attr("height", $(window).height());
@@ -109,7 +110,6 @@ function Start() {
     }
     lives = 3
     points = 0;
-    time_elapsed = 0;
     initiateObjects();
     initiateBadSSsYLocation(0);
   }
@@ -134,19 +134,22 @@ function Start() {
     },
     false
   );
-  addEventListener("click", function (event) {
-    var mouseX = event.clientX - c.getBoundingClientRect().left;
-    var mouseY = event.clientY - c.getBoundingClientRect().top;
+  addEventListener(
+    "click",
+    function (e) {
+    var mouseX = e.clientX - c.getBoundingClientRect().left;
+    var mouseY = e.clientY - c.getBoundingClientRect().top;
 
     if (mouseX > buttonX && mouseX < buttonX + buttonWidth && mouseY > buttonY && mouseY < buttonY + buttonHeight) {
       backgroundSound.pause();
-    
       window.clearInterval(interval);
       startGame();
+      return;
     }
   });
 
   interval = setInterval(Update, intervalGap);
+}
 }
 
 function Update() {
@@ -626,6 +629,7 @@ function startGame() {
   if ($('#gameDuration').val() >= 120) {
     if (shoot != null) {
       goToGamePage();
+      window.clearInterval(interval);
       Start()
     }
   }
