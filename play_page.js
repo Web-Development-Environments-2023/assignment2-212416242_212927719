@@ -87,7 +87,6 @@ function addBSSshot() {
 }
 
 function Start() {
-  window.onload= function() {
   max_time = $("#gameDuration").val();
   GoodSSImg.src = $("#spaceShipSelect").val();
   $("#MyCanvas").attr("width", $(window).width());
@@ -150,7 +149,6 @@ function Start() {
   });
 
   interval = setInterval(Update, intervalGap);
-}
 }
 
 function Update() {

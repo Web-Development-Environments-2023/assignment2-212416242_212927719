@@ -67,10 +67,3 @@ window.addEventListener('click', function(e){
         window.dialog.close();
     }
   });
-// $(document).mouseup(function(event) {
-//     var dialog = $("#dialogDiv");
-//     var target = $(event.target);
-//     if (!target.is(dialog) && !dialog.has(target).length) {
-//         dialog.hide();
-//     }
-// });
